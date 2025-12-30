@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Svg, { Path, G } from "react-native-svg";
-import { StyleSheet } from "react-native";
+import Svg, { Path, G, Rect } from "react-native-svg";
+import { StyleSheet, View } from "react-native";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import Animated, {
     useSharedValue,
@@ -19,18 +19,21 @@ interface InteractivePHMapProps {
     color?: string; // Default color
     provinceColors?: { [key: string]: string };
     focusProvince?: string | null;
+    bottomSheetHeight?: number; // Height of bottom sheet to account for when panning
 }
 
 const VIEW_BOX_WIDTH = 351;
 const VIEW_BOX_HEIGHT = 603;
+const MAP_SAFETY_MARGIN = 200; // Pixels of map that must remain visible (safety margin)
 
 const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
     onMapPress,
     width = "100%",
     height = "100%",
-    color = "#E2E8F0", // zinc-300 default
+    color = "#D7DFEA", // Map bg color
     provinceColors = {},
     focusProvince,
+    bottomSheetHeight = 0,
 }) => {
     // Zoom and Pan State
     const scale = useSharedValue(1);
@@ -40,14 +43,41 @@ const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
     const translateY = useSharedValue(0);
     const savedTranslateY = useSharedValue(0);
 
+    // View Dimensions for Gesture Constraints
+    const viewWidth = useSharedValue(0);
+    const viewHeight = useSharedValue(0);
+
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+    const clamp = (val: number, min: number, max: number) => {
+        "worklet";
+        return Math.min(Math.max(val, min), max);
+    };
+
+    // Bounds Calculation Helper
+    const getBounds = (vWidth: number, vHeight: number, s: number) => {
+        "worklet";
+        const boundX = (vWidth * (1 + s)) / 2 - MAP_SAFETY_MARGIN;
+        const boundY = (vHeight * (1 + s)) / 2 - MAP_SAFETY_MARGIN;
+        return { boundX, boundY };
+    };
 
     // Gestures
     const panGesture = Gesture.Pan()
         .onUpdate((e) => {
-            translateX.value = savedTranslateX.value + e.translationX;
-            translateY.value = savedTranslateY.value + e.translationY;
+            const { boundX, boundY } = getBounds(viewWidth.value, viewHeight.value, scale.value);
+
+            translateX.value = clamp(
+                savedTranslateX.value + e.translationX,
+                -boundX,
+                boundX
+            );
+            translateY.value = clamp(
+                savedTranslateY.value + e.translationY,
+                -boundY,
+                boundY
+            );
         })
         .onEnd(() => {
             savedTranslateX.value = translateX.value;
@@ -56,16 +86,25 @@ const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
 
     const pinchGesture = Gesture.Pinch()
         .onUpdate((e) => {
-            //minimum zoom is 1, maximum zoom is 2
-            const newScale = Math.min(Math.max(savedScale.value * e.scale, 1), 2);
+            //minimum zoom is 1, maximum zoom is 3
+            const newScale = Math.min(Math.max(savedScale.value * e.scale, 1), 3);
             scale.value = newScale;
 
             // Calculate effective scale ratio relative to the start of the gesture
-            // to adjust translation proportionally
             const scaleRatio = newScale / savedScale.value;
 
-            translateX.value = savedTranslateX.value * scaleRatio;
-            translateY.value = savedTranslateY.value * scaleRatio;
+            const { boundX, boundY } = getBounds(viewWidth.value, viewHeight.value, newScale);
+
+            translateX.value = clamp(
+                savedTranslateX.value * scaleRatio,
+                -boundX,
+                boundX
+            );
+            translateY.value = clamp(
+                savedTranslateY.value * scaleRatio,
+                -boundY,
+                boundY
+            );
         })
         .onEnd(() => {
             savedScale.value = scale.value;
@@ -98,9 +137,6 @@ const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
                 const viewCenterX = dimensions.width / 2;
                 const viewCenterY = dimensions.height / 2;
 
-                // Visual center of the province at scale 1
-                // We need to account for how SVG is positioned (centered by default in 'meet')
-                // Offset calculation for "meet" aspect ratio
                 const scaledSvgWidth = VIEW_BOX_WIDTH * sBase;
                 const scaledSvgHeight = VIEW_BOX_HEIGHT * sBase;
                 const offsetX = (dimensions.width - scaledSvgWidth) / 2;
@@ -109,20 +145,23 @@ const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
                 const targetCenterX = bounds.centerX * sBase + offsetX;
                 const targetCenterY = bounds.centerY * sBase + offsetY;
 
-                // Calculate zoom needed
-                // We want province width/height to cover say 30% of screen
                 const targetScaleX = (dimensions.width * 0.3) / (bounds.width * sBase);
                 const targetScaleY = (dimensions.height * 0.3) / (bounds.height * sBase);
-                // Limit max zoom to reasonable
-                const nextScale = Math.min(Math.max(Math.min(targetScaleX, targetScaleY), 1), 2);
+                const nextScale = Math.min(Math.max(Math.min(targetScaleX, targetScaleY), 1), 3);
 
-                // Calculate Translate to bring target center to view center
-                // distance from center * scale, inverted
+                // Calculate Loose Bounds
+                const maxTranslateX = (dimensions.width * (1 + nextScale)) / 2 - MAP_SAFETY_MARGIN;
+                const maxTranslateY = (dimensions.height * (1 + nextScale)) / 2 - MAP_SAFETY_MARGIN;
+
                 const deltaX = targetCenterX - viewCenterX;
                 const deltaY = targetCenterY - viewCenterY;
 
-                const nextTranslateX = -deltaX * nextScale;
-                const nextTranslateY = -deltaY * nextScale;
+                let nextTranslateX = -deltaX * nextScale;
+                let nextTranslateY = -deltaY * nextScale;
+
+                // Clamp translation
+                nextTranslateX = Math.min(Math.max(nextTranslateX, -maxTranslateX), maxTranslateX);
+                nextTranslateY = Math.min(Math.max(nextTranslateY, -maxTranslateY), maxTranslateY);
 
                 scale.value = withTiming(nextScale, { duration: 1000 });
                 translateX.value = withTiming(nextTranslateX, { duration: 1000 });
@@ -132,11 +171,126 @@ const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
                 savedTranslateX.value = nextTranslateX;
                 savedTranslateY.value = nextTranslateY;
 
-                // Also select it
                 setSelectedProvince(focusProvince);
             }
         }
     }, [focusProvince, dimensions]);
+
+    // Pan map when bottom sheet becomes visible to keep selected province visible
+    React.useEffect(() => {
+        console.log('useEffect triggered:', { bottomSheetHeight, selectedProvince, dimensions });
+        if (bottomSheetHeight > 0 && selectedProvince && dimensions.width > 0 && dimensions.height > 0) {
+            console.log('Bottom sheet visible, panning to province:', selectedProvince);
+            const province = PROVINCE_PATHS.find((p) => p.id === selectedProvince);
+            if (province) {
+                // Standard logic
+                const bounds = getPathBounds(province.d);
+                const sBase = Math.min(
+                    dimensions.width / VIEW_BOX_WIDTH,
+                    dimensions.height / VIEW_BOX_HEIGHT
+                );
+
+                const visibleHeight = dimensions.height - bottomSheetHeight;
+                const viewCenterX = dimensions.width / 2;
+                const viewCenterY = visibleHeight / 1;
+
+                const scaledSvgWidth = VIEW_BOX_WIDTH * sBase;
+                const scaledSvgHeight = VIEW_BOX_HEIGHT * sBase;
+                const offsetX = (dimensions.width - scaledSvgWidth) / 2;
+                const offsetY = (dimensions.height - scaledSvgHeight) / 2;
+
+                const targetCenterX = bounds.centerX * sBase + offsetX;
+                const targetCenterY = bounds.centerY * sBase + offsetY;
+
+                const currentScale = scale.value;
+                const deltaX = targetCenterX - viewCenterX;
+                const deltaY = targetCenterY - viewCenterY;
+
+                const zoomReductionFactor = 1 / (currentScale);
+                let nextTranslateX = -deltaX * currentScale * zoomReductionFactor;
+                let nextTranslateY = -deltaY * currentScale * zoomReductionFactor;
+
+                // Clamp to loose bounds
+                const maxTranslateX = (dimensions.width * (1 + currentScale)) / 2 - MAP_SAFETY_MARGIN;
+                const maxTranslateY = (dimensions.height * (1 + currentScale)) / 2 - MAP_SAFETY_MARGIN;
+
+                nextTranslateX = Math.min(Math.max(nextTranslateX, -maxTranslateX), maxTranslateX);
+                nextTranslateY = Math.min(Math.max(nextTranslateY, -maxTranslateY), maxTranslateY);
+
+                console.log('Panning to:', { nextTranslateX, nextTranslateY });
+
+                translateX.value = withTiming(nextTranslateX, { duration: 600 });
+                translateY.value = withTiming(nextTranslateY, { duration: 600 });
+
+                savedTranslateX.value = nextTranslateX;
+                savedTranslateY.value = nextTranslateY;
+            }
+        }
+    }, [bottomSheetHeight, selectedProvince, dimensions]);
+
+    // Reset map when bottom sheet closes
+    React.useEffect(() => {
+        if (bottomSheetHeight === 0 && (scale.value !== 1 || translateX.value !== 0 || translateY.value !== 0)) {
+            console.log('Bottom sheet closed, resetting map');
+            // Animate back to default state
+            scale.value = withTiming(1, { duration: 600 });
+            translateX.value = withTiming(0, { duration: 600 });
+            translateY.value = withTiming(0, { duration: 600 });
+
+            savedScale.value = 1;
+            savedTranslateX.value = 0;
+            savedTranslateY.value = 0;
+
+            // Clear selected province
+            setSelectedProvince(null);
+        }
+    }, [bottomSheetHeight]);
+
+    // ... (Keep existing middle parts) ...
+
+    const handleBackgroundPress = (event: any) => {
+        if (dimensions.width === 0 || dimensions.height === 0) return;
+
+        const { locationX, locationY } = event.nativeEvent;
+
+        const sBase = Math.min(
+            dimensions.width / VIEW_BOX_WIDTH,
+            dimensions.height / VIEW_BOX_HEIGHT
+        );
+
+        const scaledSvgWidth = VIEW_BOX_WIDTH * sBase;
+        const scaledSvgHeight = VIEW_BOX_HEIGHT * sBase;
+        const offsetX = (dimensions.width - scaledSvgWidth) / 2;
+        const offsetY = (dimensions.height - scaledSvgHeight) / 2;
+
+        const targetCenterX = locationX * sBase + offsetX;
+        const targetCenterY = locationY * sBase + offsetY;
+
+        const currentScale = scale.value;
+        const nextScale = currentScale < 2 ? 2 : 2;
+
+        const viewCenterX = dimensions.width / 2;
+        const viewCenterY = dimensions.height / 2;
+
+        // Calculate Loop Bounds
+        const maxTranslateX = (dimensions.width * (1 + nextScale)) / 2 - MAP_SAFETY_MARGIN;
+        const maxTranslateY = (dimensions.height * (1 + nextScale)) / 2 - MAP_SAFETY_MARGIN;
+
+        let nextTranslateX = (viewCenterX / nextScale) - targetCenterX;
+        let nextTranslateY = (viewCenterY / nextScale) - targetCenterY;
+
+        // Clamp
+        nextTranslateX = Math.min(Math.max(nextTranslateX, -maxTranslateX), maxTranslateX);
+        nextTranslateY = Math.min(Math.max(nextTranslateY, -maxTranslateY), maxTranslateY);
+
+        scale.value = withTiming(nextScale, { duration: 500 });
+        translateX.value = withTiming(nextTranslateX, { duration: 500 });
+        translateY.value = withTiming(nextTranslateY, { duration: 500 });
+
+        savedScale.value = nextScale;
+        savedTranslateX.value = nextTranslateX;
+        savedTranslateY.value = nextTranslateY;
+    };
 
     const handlePress = (id: string) => {
         if (selectedProvince === id) {
@@ -154,35 +308,49 @@ const InteractivePHMap: React.FC<InteractivePHMapProps> = ({
 
     return (
         <GestureDetector gesture={composed}>
-            <Animated.View
+            <View
                 className={styles.container}
-                style={animatedStyle}
                 onLayout={(event) => {
                     const { width, height } = event.nativeEvent.layout;
                     setDimensions({ width, height });
+                    viewWidth.value = width;
+                    viewHeight.value = height;
                 }}
             >
-                <Svg
-                    width={width}
-                    height={height}
-                    viewBox={`0 0 ${VIEW_BOX_WIDTH} ${VIEW_BOX_HEIGHT}`}
-                    fill="none"
+                <Animated.View
+                    className={styles.container}
+                    style={animatedStyle}
                 >
-                    <G>
-                        {PROVINCE_PATHS.map(({ id, d }: ProvincePath) => (
-                            <Path
-                                key={id}
-                                id={id}
-                                d={d}
-                                fill={provinceColors[id] || color}
-                                onPress={() => handlePress(id)}
-                                stroke={selectedProvince === id ? "#CA8A04" : "#CBD5E1"}
-                                strokeWidth={selectedProvince === id ? 1 : 0.26}
-                            />
-                        ))}
-                    </G>
-                </Svg>
-            </Animated.View>
+                    <Svg
+                        width={dimensions.width}
+                        height={dimensions.height}
+                        viewBox={`0 0 ${VIEW_BOX_WIDTH} ${VIEW_BOX_HEIGHT}`}
+                        fill="none"
+                    >
+                        <Rect
+                            x="0"
+                            y="0"
+                            width={VIEW_BOX_WIDTH}
+                            height={VIEW_BOX_HEIGHT}
+                            fill="transparent"
+                            onPress={handleBackgroundPress}
+                        />
+                        <G>
+                            {PROVINCE_PATHS.map(({ id, d }: ProvincePath) => (
+                                <Path
+                                    key={id}
+                                    id={id}
+                                    d={d}
+                                    fill={provinceColors[id] || color}
+                                    onPress={() => handlePress(id)}
+                                    stroke={selectedProvince === id ? "#EAB308" : "#fff"}
+                                    strokeWidth={selectedProvince === id ? 1 : 0.26}
+                                />
+                            ))}
+                        </G>
+                    </Svg>
+                </Animated.View>
+            </View>
         </GestureDetector>
     );
 };

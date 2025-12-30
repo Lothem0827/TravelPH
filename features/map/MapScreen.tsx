@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { View, TextInput, FlatList, Text, TouchableOpacity, Keyboard } from "react-native";
+import { View, TextInput, FlatList, Text, TouchableOpacity, Keyboard, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InteractivePHMap from "@/features/map/components/InteractivePHMap";
 import ProvinceBottomSheet from "@/features/map/components/ProvinceBottomSheet";
@@ -11,13 +11,16 @@ import ProvinceStats from "@/features/map/components/ProvinceStats";
 export default function MapScreen() {
   const { visited, wishlisted, addToWishlist, markVisited } = useTravelStore();
 
+  // Calculate bottom sheet height (75% of screen height)
+  const SHEET_HEIGHT = Dimensions.get('window').height * 0.75;
+
   const provinceColors = useMemo(() => {
     const colors: { [key: string]: string } = {};
     if (Array.isArray(visited)) {
       visited.forEach(id => colors[id] = "#FACC15"); // Yellow 400
     }
     if (Array.isArray(wishlisted)) {
-      wishlisted.forEach(id => colors[id] = "#94A3B8"); // Slate 400
+      wishlisted.forEach(id => colors[id] = "#A3B4CC"); // Slate 400
     }
     return colors;
   }, [visited, wishlisted]);
@@ -126,6 +129,7 @@ export default function MapScreen() {
           onMapPress={handleMapPress}
           provinceColors={provinceColors}
           focusProvince={focusProvince}
+          bottomSheetHeight={isBottomSheetVisible ? SHEET_HEIGHT : 0}
         />
 
         <ProvinceBottomSheet
