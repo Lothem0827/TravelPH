@@ -36,8 +36,13 @@ export const useTravelStore = create<TravelState>((set, get) => ({
         // For simplicity: Set wishlist=1.
 
         try {
-            // Update DB
-            setWishlistStatus(id, true);
+            // Get current wishlist status and toggle it
+            const provinces = getProvinceStatuses();
+            const province = provinces.find(p => p.id === id);
+            const isCurrentlyWishlisted = province?.wishlisted || false;
+
+            // Update DB - toggle the status
+            setWishlistStatus(id, !isCurrentlyWishlisted);
             // In a real app we might want to un-visit? 
             // setVisitedStatus(id, false); 
 

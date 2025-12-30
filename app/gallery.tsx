@@ -160,6 +160,11 @@ const GalleryScreen = () => {
                         contentContainerStyle={{ paddingHorizontal: 24, alignItems: 'center' }}
                         renderItem={({ item, index }) => {
                             const isSelected = index === currentIndex;
+                            const distance = Math.abs(index - currentIndex);
+                            let size = 52; // default
+                            if (distance === 0) size = 64; // active
+                            else if (distance === 1) size = 58; // adjacent
+
                             return (
                                 <TouchableOpacity
                                     onPress={() => {
@@ -168,8 +173,8 @@ const GalleryScreen = () => {
                                     }}
                                     className={`mr-3 rounded-2xl overflow-hidden border-2 ${isSelected ? 'border-yellow-400 opacity-100' : 'border-transparent opacity-60'}`}
                                     style={{
-                                        width: 68,
-                                        height: 68,
+                                        width: size,
+                                        height: size,
                                     }}
                                 >
                                     <Image

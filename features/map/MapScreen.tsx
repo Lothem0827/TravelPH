@@ -49,7 +49,7 @@ export default function MapScreen() {
   const handleAddToWishlist = () => {
     if (selectedProvinceData) {
       addToWishlist(selectedProvinceData.id);
-      setIsBottomSheetVisible(false);
+      // Don't close here - let ProvinceBottomSheet handle the close timing
     }
   };
 

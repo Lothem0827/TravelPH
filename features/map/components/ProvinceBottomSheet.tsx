@@ -7,13 +7,13 @@ import Animated, {
     withTiming,
     runOnJS,
 } from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture } from 'react-native-gesture-handler';
 import { getProvinceDetails, ProvinceDetails, getDiaryDetails, DiaryDetails } from '@/database/queries';
 import Button from '@/components/Button';
 import VisitedProvinceContent from './VisitedProvinceContent';
 import NotVisitedProvinceContent from './NotVisitedProvinceContent';
-import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
-import { formatVisitDate } from '@/utils/dateUtils';
+
+import CheckIcon from '@/assets/icons/check-icon.svg';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 // Increase content height to accommodate images and tags
@@ -40,6 +40,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
     const translateY = useSharedValue(SCREEN_HEIGHT);
     const [details, setDetails] = useState<ProvinceDetails | null>(null);
     const [diaryDetails, setDiaryDetails] = useState<DiaryDetails | null>(null);
+    const [isWishlisted, setIsWishlisted] = useState(false);
 
     const context = useSharedValue({ y: 0 });
 
@@ -90,10 +91,17 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                 }
             }
             translateY.value = withTiming(0, { duration: 300 });
+            // Initialize wishlisted state
+            setIsWishlisted(false);
         } else {
             translateY.value = withTiming(SCREEN_HEIGHT);
         }
     }, [isVisible, provinceId]);
+
+    // Update isWishlisted when details change
+    useEffect(() => {
+        setIsWishlisted(details?.wishlisted || false);
+    }, [details]);
 
     const rBottomSheetStyle = useAnimatedStyle(() => {
         return {
@@ -125,6 +133,36 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                 pathname: "/gallery",
                 params: { provinceId, initialIndex: index.toString() }
             });
+        }
+    };
+
+    const handleAddToWishlist = () => {
+        if (isWishlisted) {
+            // Remove from wishlist
+            onAddToWishlist(); // This will toggle in the database
+            setIsWishlisted(false);
+
+            // Refresh province details after database update
+            setTimeout(() => {
+                if (provinceId) {
+                    const updatedDetails = getProvinceDetails(provinceId);
+                    setDetails(updatedDetails);
+                }
+            }, 100);
+            // Don't close when removing
+        } else {
+            // Add to wishlist
+            onAddToWishlist();
+            setIsWishlisted(true);
+
+            // Refresh province details after database update
+            setTimeout(() => {
+                if (provinceId) {
+                    const updatedDetails = getProvinceDetails(provinceId);
+                    setDetails(updatedDetails);
+                }
+            }, 100);
+            // Don't close when adding - let user stay on the sheet
         }
     };
 
@@ -173,9 +211,10 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                     ) : (
                         <View className="flex-col gap-3 w-full">
                             <Button
-                                title="Add to wishlist"
-                                onPress={onAddToWishlist}
-                                variant="outline"
+                                title={isWishlisted ? 'Added to wishlist' : 'Add to wishlist'}
+                                onPress={handleAddToWishlist}
+                                variant={isWishlisted ? 'secondary' : 'outline'}
+                                icon={isWishlisted ? <CheckIcon width={20} height={20} /> : undefined}
                             />
 
                             <Button
