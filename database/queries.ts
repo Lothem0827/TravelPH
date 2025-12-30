@@ -38,6 +38,7 @@ export const resetProvinces = () => {
 };
 
 export interface SaveDiaryEntryParams {
+    id?: number;
     provinceId: string;
     startDate: string;
     endDate: string;
@@ -47,16 +48,29 @@ export interface SaveDiaryEntryParams {
 }
 
 export const saveDiaryEntry = (params: SaveDiaryEntryParams): void => {
-    const { provinceId, startDate, endDate, notes, tags, images } = params;
+    const { id, provinceId, startDate, endDate, notes, tags, images } = params;
 
     db.withTransactionSync(() => {
-        // Insert diary entry
-        const result = db.runSync(
-            'INSERT INTO diaries (province_id, start_date, end_date, notes) VALUES (?, ?, ?, ?)',
-            [provinceId, startDate, endDate, notes || '']
-        );
+        let diaryId = id;
 
-        const diaryId = result.lastInsertRowId;
+        if (diaryId) {
+            // Update existing diary
+            db.runSync(
+                'UPDATE diaries SET start_date = ?, end_date = ?, notes = ? WHERE id = ?',
+                [startDate, endDate, notes || '', diaryId]
+            );
+
+            // Clear existing tags and images to replace them
+            db.runSync('DELETE FROM diary_tags WHERE diary_id = ?', [diaryId]);
+            db.runSync('DELETE FROM diary_images WHERE diary_id = ?', [diaryId]);
+        } else {
+            // Insert new diary entry
+            const result = db.runSync(
+                'INSERT INTO diaries (province_id, start_date, end_date, notes) VALUES (?, ?, ?, ?)',
+                [provinceId, startDate, endDate, notes || '']
+            );
+            diaryId = result.lastInsertRowId;
+        }
 
         // Insert tags
         tags.forEach(tag => {

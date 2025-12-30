@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
-import { saveDiaryEntry } from '@/database/queries';
+import { saveDiaryEntry, DiaryDetails } from '@/database/queries';
 import { useTravelStore } from '@/store/useTravelStore';
 
 interface AddDiaryScreenProps {
@@ -21,6 +21,7 @@ interface AddDiaryScreenProps {
     provinceName: string;
     onClose: () => void;
     onSaved: () => void;
+    initialDetails?: DiaryDetails | null;
 }
 
 const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
@@ -29,6 +30,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
     provinceName,
     onClose,
     onSaved,
+    initialDetails,
 }) => {
     const { refreshData } = useTravelStore();
 
@@ -41,6 +43,24 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
     const [tags, setTags] = useState<string[]>([]);
     const [newTag, setNewTag] = useState('');
     const [images, setImages] = useState<string[]>([]);
+
+    React.useEffect(() => {
+        if (visible) {
+            if (initialDetails) {
+                setStartDate(new Date(initialDetails?.startDate ?? new Date()));
+                setEndDate(new Date(initialDetails?.endDate ?? new Date()));
+                setNotes(initialDetails?.notes || '');
+                setTags(initialDetails?.tags || []);
+                setImages(initialDetails?.images || []);
+            } else {
+                setStartDate(new Date());
+                setEndDate(new Date());
+                setNotes('');
+                setTags([]);
+                setImages([]);
+            }
+        }
+    }, [visible, initialDetails]);
 
     const formatDate = (date: Date) => {
         return date.toLocaleDateString('en-US', {
@@ -104,6 +124,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
 
         try {
             saveDiaryEntry({
+                id: initialDetails?.id,
                 provinceId,
                 startDate: startDate.toISOString().split('T')[0],
                 endDate: endDate.toISOString().split('T')[0],
@@ -140,7 +161,9 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                     <TouchableOpacity onPress={onClose} className="absolute left-6 top-4 z-10">
                         <Text className="text-2xl text-slate-700 font-sans">✕</Text>
                     </TouchableOpacity>
-                    <Text className="text-center text-slate-500 font-medium">Save this adventure</Text>
+                    <Text className="text-center text-slate-500 font-medium">
+                        {initialDetails ? 'Update Memory' : 'Save this adventure'}
+                    </Text>
                 </View>
 
                 <ScrollView className="flex-1 px-6 py-6">
@@ -287,7 +310,9 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                         onPress={handleSave}
                         className="bg-yellow-400 rounded-xl py-4 items-center active:bg-yellow-500"
                     >
-                        <Text className="text-white font-bold text-lg">Save visit</Text>
+                        <Text className="text-white font-bold text-lg">
+                            {initialDetails ? 'Update Visit' : 'Save visit'}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

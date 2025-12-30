@@ -9,10 +9,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { getProvinceDetails, ProvinceDetails, getDiaryDetails, DiaryDetails } from '@/database/queries';
-import AddDiaryScreen from '@/features/diary/AddDiaryScreen';
 import Button from '@/components/Button';
 import VisitedProvinceContent from './VisitedProvinceContent';
 import NotVisitedProvinceContent from './NotVisitedProvinceContent';
+import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
+import { formatVisitDate } from '@/utils/dateUtils';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 // Increase content height to accommodate images and tags
@@ -39,7 +40,6 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
     const translateY = useSharedValue(SCREEN_HEIGHT);
     const [details, setDetails] = useState<ProvinceDetails | null>(null);
     const [diaryDetails, setDiaryDetails] = useState<DiaryDetails | null>(null);
-    const [showDiaryScreen, setShowDiaryScreen] = useState(false);
 
     const context = useSharedValue({ y: 0 });
 
@@ -104,12 +104,28 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
     if (!isVisible && translateY.value === SCREEN_HEIGHT) return null;
 
     const handleOpenDiaryScreen = () => {
-        setShowDiaryScreen(true);
+        if (provinceId) {
+            // Close bottom sheet first? Or keep it? 
+            // If we push, the bottom sheet stays mounted but hidden? 
+            // Better to close it so when we come back we see the map?
+            // User flow: Click "I've been here" -> Full screen form -> Save -> Back to Map.
+            // When back to map, the province is now visited. So we probably want the bottom sheet to close or refresh.
+            // Let's close it for now.
+            onClose();
+            router.push({
+                pathname: "/diary/write",
+                params: { provinceId }
+            });
+        }
     };
 
-    const handleDiarySaved = () => {
-        setShowDiaryScreen(false);
-        onMarkVisited(); // This will refresh the data and close the bottom sheet
+    const handleImagePress = (index: number) => {
+        if (provinceId) {
+            router.push({
+                pathname: "/gallery",
+                params: { provinceId, initialIndex: index.toString() }
+            });
+        }
     };
 
     return (
@@ -119,7 +135,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                 style={[rBottomSheetStyle, { maxHeight: SHEET_HEIGHT, bottom: 0 }]}
             >
 
-                <View className="px-6 pb-24 items-start w-full">
+                <View className="items-start w-full">
                     {details ? (
                         details.visited ? (
                             <VisitedProvinceContent
@@ -128,6 +144,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                                 details={details}
                                 diaryDetails={diaryDetails}
                                 panGesture={panGesture}
+                                onImagePress={handleImagePress}
                             />
                         ) : (
                             <NotVisitedProvinceContent
@@ -135,6 +152,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                                 provinceId={provinceId}
                                 details={details}
                                 panGesture={panGesture}
+                                onImagePress={handleImagePress}
                             />
                         )
                     ) : (
@@ -143,7 +161,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                 </View>
 
                 {/* Buttons - Fixed at bottom */}
-                <View className="absolute bottom-0 w-full px-6 py-4 bg-white">
+                <View className="absolute bottom-0 w-full px-6 py-6 bg-white ">
                     {details?.visited ? (
                         <View className="flex-row justify-between gap-3 w-full">
                             <Button
@@ -161,6 +179,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                             />
 
                             <Button
+
                                 title="I've been here"
                                 onPress={handleOpenDiaryScreen}
                                 variant="primary"
@@ -170,16 +189,8 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                 </View>
             </Animated.View>
 
-            {/* Add Diary Screen Modal */}
-            {provinceId && provinceName && (
-                <AddDiaryScreen
-                    visible={showDiaryScreen}
-                    provinceId={provinceId}
-                    provinceName={provinceName}
-                    onClose={() => setShowDiaryScreen(false)}
-                    onSaved={handleDiarySaved}
-                />
-            )}
+
+
         </>
     );
 };

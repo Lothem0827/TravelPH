@@ -5,6 +5,8 @@ import { getDiaryDetails, getProvinceDetails, getNextVisitedProvince, DiaryDetai
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
 import { Ionicons } from '@expo/vector-icons';
 import { formatVisitDate } from '@/utils/dateUtils';
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
 
 const DiaryScreen = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -14,8 +16,7 @@ const DiaryScreen = () => {
     const [nextMemory, setNextMemory] = useState<{ id: string; title: string; visitedDate: string } | null>(null);
     const [showAllPhotos, setShowAllPhotos] = useState(false);
 
-
-    useEffect(() => {
+    const refreshDiary = () => {
         if (id) {
             const diaryData = getDiaryDetails(id);
             const provinceData = getProvinceDetails(id);
@@ -25,7 +26,20 @@ const DiaryScreen = () => {
             setProvince(provinceData);
             setNextMemory(nextData);
         }
-    }, [id]);
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            refreshDiary();
+        }, [id])
+    );
+
+    const handleEdit = () => {
+        router.push({
+            pathname: "/diary/write",
+            params: { provinceId: id as string }
+        });
+    };
 
 
 
@@ -51,7 +65,7 @@ const DiaryScreen = () => {
                     <Ionicons name="close" size={28} color="#334155" />
                 </TouchableOpacity>
                 <Text className="text-lg font-semibold text-slate-700">Your {province.title} diary</Text>
-                <TouchableOpacity onPress={() => console.log('Edit clicked')} className="p-2 -mr-2">
+                <TouchableOpacity onPress={handleEdit} className="p-2 -mr-2">
                     <Text className="text-yellow-600 font-medium text-base">Edit</Text>
                 </TouchableOpacity>
             </View>
@@ -86,8 +100,16 @@ const DiaryScreen = () => {
 
                         <View className="flex-row flex-wrap gap-2">
                             {displayedImages.map((img, index) => (
-                                <View
+                                <TouchableOpacity
                                     key={index}
+                                    onPress={() => {
+                                        if (id) {
+                                            router.push({
+                                                pathname: "/gallery",
+                                                params: { provinceId: id as string, initialIndex: index.toString() }
+                                            });
+                                        }
+                                    }}
                                     className="w-[48%] aspect-square rounded-2xl overflow-hidden bg-slate-100 mb-2 relative"
                                 >
                                     <Image
@@ -101,7 +123,7 @@ const DiaryScreen = () => {
                                             <Text className="text-white font-bold text-xl">+{remainingImagesCount}</Text>
                                         </View>
                                     )}
-                                </View>
+                                </TouchableOpacity>
                             ))}
                         </View>
 
@@ -155,6 +177,11 @@ const DiaryScreen = () => {
                     </View>
                 )}
             </ScrollView>
+
+
+
+
+
 
 
         </SafeAreaView >

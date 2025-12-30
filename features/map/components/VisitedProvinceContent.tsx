@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
 import { GestureDetector, PanGesture } from 'react-native-gesture-handler';
 import { ProvinceDetails, DiaryDetails } from '@/database/queries';
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
@@ -12,6 +12,7 @@ interface VisitedProvinceContentProps {
     details: ProvinceDetails | null;
     diaryDetails: DiaryDetails | null;
     panGesture: PanGesture;
+    onImagePress: (index: number) => void;
 }
 
 const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
@@ -20,23 +21,29 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
     details,
     diaryDetails,
     panGesture,
+    onImagePress,
 }) => {
     return (
         <>
             {/* Content Area */}
             <GestureDetector gesture={panGesture}>
-                <View className='w-full '>
+                <View className='w-full px-6 flex-col gap-5 '>
                     {/* Handle */}
-                    <View className="w-full pt-3 pb-8">
+                    <View className="w-full pt-3  ">
                         <View className="w-12 h-1 bg-slate-200 self-center  rounded-full" />
                     </View>
 
-                    <View className='w-full flex-row justify-between flex-wrap gap-2.5 '>
+                    <View className='w-full flex-row justify-between gap-2.5 '>
                         <View className="flex-col gap-2">
-                            {/* Header */}
-                            <Text className="text-3xl font-semibold text-slate-700">
-                                {provinceName || "Unknown Province"} {provinceId && PROVINCE_EMOJIS[provinceId]}
-                            </Text>
+                            <View className='flex-row flex-wrap gap-2 justify-between items-center w-full'>
+                                {/* Header */}
+                                <Text className="text-3xl font-semibold text-slate-700">
+                                    {provinceName || "Unknown Province"} {provinceId && PROVINCE_EMOJIS[provinceId]}
+                                </Text>
+
+                                {/* Visited Badge */}
+                                <Badge label="Visited" variant="primary" />
+                            </View>
 
                             {/* Notes */}
                             {diaryDetails?.notes ? (
@@ -57,8 +64,7 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
                             )}
                         </View>
 
-                        {/* Visited Badge */}
-                        <Badge label="Visited" variant="primary" className="mt-2" />
+
                     </View>
 
 
@@ -68,12 +74,12 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
 
                     {/* What did you do */}
                     <View
-                        className={`w-full mt-5 flex-row items-center ${(diaryDetails?.tags?.length ?? 0) > 0 ? 'justify-between' : 'justify-start'}`}
+                        className={`w-full flex-row  items-center ${(diaryDetails?.tags?.length ?? 0) > 0 ? 'justify-between' : 'justify-start'}`}
                     >
                         {/* Tag Container */}
                         {(diaryDetails?.tags?.length ?? 0) > 0 && (
-                            <View className="flex-row flex-wrap gap-2 w-3/4">
-                                {diaryDetails?.tags?.map((tag, i) => (
+                            <View className="flex-row flex-wrap gap-2">
+                                {diaryDetails?.tags?.slice(0, 3).map((tag, i) => (
                                     <Badge
                                         key={`tag-${i}`}
                                         label={tag}
@@ -84,9 +90,9 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
                         )}
 
                         {/* Photos Text */}
-                        <Text className='text-xs font-medium text-slate-400'>
+                        {/* <Text className='text-xs font-medium text-slate-400'>
                             {diaryDetails?.images?.length ?? 0} photos
-                        </Text>
+                        </Text> */}
                     </View>
                 </View>
             </GestureDetector>
@@ -98,15 +104,17 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => `img-${index}`}
-                    renderItem={({ item: img }) => (
-                        <Image
-                            source={{ uri: img }}
-                            className="w-36 h-36 rounded-2xl mr-3 bg-slate-200"
-                            resizeMode="cover"
-                        />
+                    renderItem={({ item: img, index }) => (
+                        <TouchableOpacity onPress={() => onImagePress(index)}>
+                            <Image
+                                source={{ uri: img }}
+                                className="w-36 h-36 rounded-2xl mr-3 bg-slate-200"
+                                resizeMode="cover"
+                            />
+                        </TouchableOpacity>
                     )}
-                    className="mt-3"
-                    contentContainerStyle={{ paddingRight: 24 }}
+                    className="px-6 pb-6 pt-3.5 mb-20"
+
                 />
             ) : (
                 <Text className="text-gray-400 font-sans italic mt-6">No photos added.</Text>

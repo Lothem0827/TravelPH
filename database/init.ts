@@ -162,3 +162,16 @@ const seedProvinces = () => {
     });
     console.log("Database update check complete.");
 };
+
+export const resetAndSeed = () => {
+    console.log('🔄 Resetting database...');
+    // Drop all tables (order matters due to foreign keys)
+    db.execSync(`DROP TABLE IF EXISTS diary_images;
+               DROP TABLE IF EXISTS diary_tags;
+               DROP TABLE IF EXISTS diaries;
+               DROP TABLE IF EXISTS province_images;
+               DROP TABLE IF EXISTS province_tags;
+               DROP TABLE IF EXISTS provinces;`);
+    // Re‑run the full initialization (creates tables & seeds data)
+    initDatabase();
+};
