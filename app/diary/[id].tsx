@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { getDiaryDetails, getProvinceDetails, getNextVisitedProvince, DiaryDetails, ProvinceDetails } from '@/database/queries';
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
 import { Ionicons } from '@expo/vector-icons';
+import { formatVisitDate } from '@/utils/dateUtils';
 
 const DiaryScreen = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -26,40 +27,13 @@ const DiaryScreen = () => {
         }
     }, [id]);
 
-    const formatVisitDate = (startDate: string, endDate: string) => {
-        if (!startDate) return '';
-        const start = new Date(startDate);
-        const end = new Date(endDate);
 
-        const formatDate = (date: Date) => {
-            return date.toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-            });
-        };
-
-        if (startDate === endDate) {
-            return `Visited ${formatDate(start)}`;
-        }
-        return `Visited ${formatDate(start)} - ${formatDate(end)}`;
-    };
-
-    const formatNextMemoryDate = (dateString: string) => {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return `Visited ${date.toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-        })}`;
-    };
 
 
     if (!diary || !province) {
         return (
             <SafeAreaView className="flex-1 bg-white justify-center items-center">
-                <Text className="text-gray-500">Loading diary...</Text>
+                <Text className="text-gray-500 font-sans">Loading diary...</Text>
             </SafeAreaView>
         );
     }
@@ -87,21 +61,21 @@ const DiaryScreen = () => {
                     {/* Hero Title */}
                     <View className="flex-row items-center mb-4">
                         <Text className="text-3xl font-bold text-slate-800 mr-3">{province.title}</Text>
-                        <Text className="text-3xl">{PROVINCE_EMOJIS[id as string] || '🇵🇭'}</Text>
+                        <Text className="text-3xl font-sans">{PROVINCE_EMOJIS[id as string] || '🇵🇭'}</Text>
                     </View>
 
                     {/* Notes */}
                     {diary.notes ? (
-                        <Text className="text-lg text-slate-600 leading-relaxed mb-2">
+                        <Text className="text-lg text-slate-600 leading-relaxed mb-2 font-sans">
                             {diary.notes}
                         </Text>
                     ) : (
-                        <Text className="text-lg text-slate-400 italic mb-2">No notes added.</Text>
+                        <Text className="text-lg text-slate-400 italic mb-2 font-sans">No notes added.</Text>
                     )}
 
                     {/* Date */}
                     <Text className="text-sm text-slate-400 font-medium mb-8">
-                        {formatVisitDate(diary.startDate, diary.endDate)}
+                        Visited {formatVisitDate(diary.startDate, diary.endDate, 'long')}
                     </Text>
 
                     {/* Photos Grid */}
@@ -153,7 +127,7 @@ const DiaryScreen = () => {
                                 </View>
                             ))}
                             {diary.tags.length === 0 && (
-                                <Text className="text-slate-400 italic">No activities recorded.</Text>
+                                <Text className="text-slate-400 italic font-sans">No activities recorded.</Text>
                             )}
                         </View>
                     </View>
@@ -173,11 +147,11 @@ const DiaryScreen = () => {
                         >
                             <View className="flex-row items-center">
                                 <Text className="text-lg font-bold text-slate-700 mr-2">{nextMemory.title}</Text>
-                                <Text className="text-lg">{PROVINCE_EMOJIS[nextMemory.id] || '🇵🇭'}</Text>
+                                <Text className="text-lg font-sans">{PROVINCE_EMOJIS[nextMemory.id] || '🇵🇭'}</Text>
                             </View>
                             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
                         </TouchableOpacity>
-                        <Text className="text-xs text-slate-400 mt-2 ml-1">{formatNextMemoryDate(nextMemory.visitedDate)}</Text>
+                        <Text className="text-xs text-slate-400 mt-2 ml-1 font-sans">Visited {formatVisitDate(nextMemory.visitedDate, nextMemory.visitedDate, 'long')}</Text>
                     </View>
                 )}
             </ScrollView>

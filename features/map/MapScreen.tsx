@@ -84,14 +84,14 @@ export default function MapScreen() {
   };
 
   return (
-    <SafeAreaView className={styles.container}>
-      <View className={styles.mainView}>
+    <SafeAreaView className="flex-1 bg-slate-100">
+      <View className="flex-1 w-full relative">
         {/* Search Input & Stats Stack */}
-        <View className={styles.searchContainer}>
-          <View className={styles.searchWrapper}>
+        <View className="absolute top-4 left-4 right-4 z-50 flex-col gap-2">
+          <View className="flex-row items-center bg-white rounded-full shadow-sm px-4 h-14 space-x-4 gap-1.5">
             <SearchIcon width={20} height={20} />
             <TextInput
-              className={styles.searchInput}
+              className="flex-1 h-full font-sans text-slate-700 placeholder:text-slate-400 placeholder:font-sans"
               placeholder="Search Province (e.g. Cebu)"
               value={searchQuery}
               onChangeText={handleSearch}
@@ -99,16 +99,16 @@ export default function MapScreen() {
           </View>
 
           {showSuggestions && filteredProvinces.length > 0 && (
-            <View className={styles.suggestionsContainer}>
+            <View className="bg-white mt-1 rounded-lg shadow-lg max-h-60">
               <FlatList
                 data={filteredProvinces}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                   <TouchableOpacity
-                    className={styles.suggestionItem}
+                    className="p-3 border-b border-slate-100"
                     onPress={() => handleSelectProvince(item)}
                   >
-                    <Text className={styles.suggestionText}>{item.val}</Text>
+                    <Text className="text-slate-700 font-sans">{item.val}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -140,14 +140,3 @@ export default function MapScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = {
-  container: `flex-1 bg-slate-100`,
-  mainView: `flex-1 w-full relative`,
-  searchContainer: `absolute top-4 left-4 right-4 z-50 flex-col gap-2`,
-  searchWrapper: `flex-row items-center bg-white rounded-full shadow-sm px-4 h-14 space-x-4 gap-1.5`,
-  searchInput: `flex-1 h-full text-base text-slate-700 placeholder:text-slate-400`,
-  suggestionsContainer: `bg-white mt-1 rounded-lg shadow-lg max-h-60`,
-  suggestionItem: `p-3 border-b border-slate-100`,
-  suggestionText: `text-slate-700`,
-};

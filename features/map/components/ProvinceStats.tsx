@@ -23,7 +23,7 @@ export default function ProvinceStats() {
 
             {/* Wishlist Stat */}
             <View className={styles.statItem}>
-                <FlagIcon width={14} height={14} color="#94A3B8" />
+                <FlagIcon width={14} height={14} color="#CBD5E1" />
                 <Text className={styles.text}>
                     {wishlistCount > 0 && <Text className={styles.boldText}>{wishlistCount} </Text>}
                     Wishlist
@@ -36,6 +36,6 @@ export default function ProvinceStats() {
 const styles = {
     container: `flex-row items-center bg-white rounded-full px-4 py-3 gap-3`,
     statItem: `flex-row items-center gap-1`,
-    text: `text-slate-500  text-sm`,
-    boldText: `font-bold text-slate-700`,
+    text: `text-slate-500 text-sm font-sans`,
+    boldText: `font-semibold text-slate-700`,
 };

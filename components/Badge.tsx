@@ -24,7 +24,7 @@ const Badge: React.FC<BadgeProps> = ({
             case 'secondary':
                 return 'bg-slate-100 border-transparent';
             case 'outline':
-                return 'bg-transparent border border-yellow-400';
+                return 'bg-transparent border border-yellow-300';
             default:
                 return 'bg-yellow-100 border-transparent';
         }
@@ -33,13 +33,13 @@ const Badge: React.FC<BadgeProps> = ({
     const getTextVariantStyles = () => {
         switch (variant) {
             case 'primary':
-                return 'text-yellow-700';
+                return 'text-yellow-600';
             case 'secondary':
-                return 'text-slate-600';
+                return 'text-slate-500';
             case 'outline':
-                return 'text-yellow-700';
+                return 'text-yellow-600';
             default:
-                return 'text-yellow-700';
+                return 'text-yellow-600';
         }
     };
 
@@ -49,7 +49,7 @@ const Badge: React.FC<BadgeProps> = ({
             {...props}
         >
             <Text
-                className={`text-xs font-bold text-center ${getTextVariantStyles()} ${textClassName}`}
+                className={`text-xs font-semibold text-center ${getTextVariantStyles()} ${textClassName}`}
             >
                 {label}
             </Text>
