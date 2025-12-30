@@ -6,6 +6,7 @@ export interface ProvinceContent {
     whyLove: string[]; // 3 tags
     travelersGo: string[]; // 3 city names
     images: any[]; // array of asset paths (require) or URIs
+    islandGroup: 'Luzon' | 'Visayas' | 'Mindanao';
 }
 
 export const PROVINCE_CONTENT: ProvinceContent[] = [
@@ -18,7 +19,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[1], // PH-ZMB
@@ -29,7 +31,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[2], // PH-ABR
@@ -40,7 +43,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[3], // PH-APA
@@ -51,7 +55,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[4], // PH-AUR
@@ -62,7 +67,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[5], // PH-BAN
@@ -73,7 +79,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[6], // PH-BTN
@@ -84,7 +91,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[7], // PH-BEN
@@ -95,7 +103,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[8], // PH-BUL
@@ -106,7 +115,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[9], // PH-CAG
@@ -117,7 +127,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[10], // PH-IFU
@@ -128,7 +139,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[11], // PH-ILN
@@ -139,7 +151,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[12], // PH-ILS
@@ -150,7 +163,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[13], // PH-ISA
@@ -161,7 +175,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[14], // PH-KAL
@@ -172,7 +187,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[15], // PH-LUN
@@ -183,7 +199,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[16], // PH-MOU
@@ -194,7 +211,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[17], // PH-NUE
@@ -205,7 +223,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[18], // PH-NUV
@@ -216,7 +235,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[19], // PH-PAM
@@ -227,7 +247,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[20], // PH-PAN
@@ -238,7 +259,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[21], // PH-QUI
@@ -249,7 +271,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[22], // PH-ALB
@@ -260,7 +283,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[23], // PH-BTG
@@ -271,7 +295,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[24], // PH-CAN
@@ -282,7 +307,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[25], // PH-CAS
@@ -293,7 +319,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[26], // PH-CAT
@@ -304,7 +331,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[27], // PH-CAV
@@ -315,7 +343,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[28], // PH-LAG
@@ -326,7 +355,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[29], // PH-MAD
@@ -337,7 +367,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[30], // PH-MAS
@@ -348,7 +379,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[31], // PH-MNL
@@ -359,7 +391,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[32], // PH-QUE
@@ -370,7 +403,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[33], // PH-RIZ
@@ -381,7 +415,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[34], // PH-SOR
@@ -392,7 +427,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[35], // PH-AKL
@@ -403,7 +439,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[36], // PH-ANT
@@ -414,7 +451,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[37], // PH-BIL
@@ -425,7 +463,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[38], // PH-BOH
@@ -436,7 +475,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[39], // PH-CAP
@@ -447,7 +487,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[40], // PH-CEB
@@ -458,7 +499,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[41], // PH-EAS
@@ -469,7 +511,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[42], // PH-GUI
@@ -480,7 +523,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[43], // PH-ILI
@@ -491,7 +535,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[44], // PH-LEY
@@ -502,7 +547,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[45], // PH-MAS_2
@@ -513,7 +559,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[46], // PH-NEC
@@ -524,7 +571,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[47], // PH-NER
@@ -535,7 +583,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[48], // PH-NSA
@@ -546,7 +595,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[49], // PH-MDC
@@ -557,7 +607,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[50], // PH-MDR
@@ -568,7 +619,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[51], // PH-PLW
@@ -579,7 +631,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[52], // PH-ROM
@@ -590,7 +643,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Luzon'
     },
     {
         id: PROVINCE_IDS[53], // PH-WSA
@@ -601,7 +655,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[54], // PH-SIG
@@ -612,7 +667,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[55], // PH-SLE
@@ -623,7 +679,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Visayas'
     },
     {
         id: PROVINCE_IDS[56], // PH-SUR
@@ -634,7 +691,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[57], // PH-TAW
@@ -645,7 +703,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[58], // PH-ZAN
@@ -656,7 +715,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[59], // PH-ZSI
@@ -667,7 +727,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[60], // PH-AGN
@@ -678,7 +739,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[61], // PH-AGS
@@ -689,7 +751,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[62], // PH-BUK
@@ -700,7 +763,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[63], // PH-CAM
@@ -711,7 +775,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[64], // PH-COM
@@ -722,7 +787,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[65], // PH-DAV
@@ -733,7 +799,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[66], // PH-DAS
@@ -744,7 +811,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[67], // PH-DAO
@@ -755,7 +823,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[68], // PH-DIN
@@ -766,7 +835,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[69], // PH-LAN
@@ -777,7 +847,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[70], // PH-LAS
@@ -788,7 +859,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[71], // PH-MG
@@ -799,7 +871,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[72], // PH-MSC
@@ -810,7 +883,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[73], // PH-MSR
@@ -821,7 +895,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[74], // PH-NCO
@@ -832,7 +907,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[75], // PH-SAR
@@ -843,7 +919,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[76], // PH-SCO
@@ -854,7 +931,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[77], // PH-SUK
@@ -865,7 +943,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[78], // PH-SLU
@@ -876,7 +955,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[79], // PH-SUN
@@ -887,7 +967,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[80], // PH-BAS
@@ -898,7 +979,8 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     },
     {
         id: PROVINCE_IDS[81], // PH-ZAS
@@ -909,6 +991,7 @@ export const PROVINCE_CONTENT: ProvinceContent[] = [
             require('@/assets/images/provinces/cebu/cebu-1.jpg'),
             require('@/assets/images/provinces/cebu/cebu-2.jpg'),
             require('@/assets/images/provinces/cebu/cebu-3.jpg'),
-        ]
+        ],
+        islandGroup: 'Mindanao'
     }
 ];

@@ -6,6 +6,7 @@ import ProvinceBottomSheet from "@/features/map/components/ProvinceBottomSheet";
 import { PROVINCES } from "@/constants/ProvinceNames";
 import { useTravelStore } from "@/store/useTravelStore";
 import SearchIcon from "@/assets/icons/search-icon.svg";
+import ExploreIcon from "@/assets/icons/explore-icon.svg";
 import ProvinceStats from "@/features/map/components/ProvinceStats";
 
 export default function MapScreen() {
@@ -131,6 +132,27 @@ export default function MapScreen() {
           focusProvince={focusProvince}
           bottomSheetHeight={isBottomSheetVisible ? SHEET_HEIGHT : 0}
         />
+
+        {/* Progress Card (Temporarily Disabled) */}
+        {/* {!isBottomSheetVisible && (
+          <View className="absolute bottom-8 left-0 right-0 z-40">
+            <ProgressCard percentage={(visited.length / PROVINCES.length) * 100} />
+          </View>
+        )} */}
+
+        {/* Visited Badge */}
+        {!isBottomSheetVisible && (
+          <View className="absolute bottom-5 left-5 right-5 z-40 bg-yellow-50 rounded-2xl p-3.5 flex-row items-center gap-1.5 ">
+            <ExploreIcon width={20} height={20} />
+            <Text className="text-yellow-600 font-medium text-sm flex-1">
+              {visited.length > 0 ? (
+                <>You’ve been to <Text >{visited.length} provinces</Text> in the Philippines.</>
+              ) : (
+                "Search or tap a province to start diary"
+              )}
+            </Text>
+          </View>
+        )}
 
         <ProvinceBottomSheet
           isVisible={isBottomSheetVisible}
