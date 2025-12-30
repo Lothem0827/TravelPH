@@ -60,41 +60,46 @@ const DiaryScreen = () => {
             <StatusBar barStyle="dark-content" backgroundColor="white" />
 
             {/* Header */}
-            <View className="px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
+            <View className="px-5 py-3 flex-row items-center justify-between">
                 <TouchableOpacity onPress={() => router.back()} className="p-2 -ml-2">
-                    <Ionicons name="close" size={28} color="#334155" />
+                    <Ionicons name="close" size={24} color="#64748B" />
                 </TouchableOpacity>
-                <Text className="text-lg font-semibold text-slate-700">Your {province.title} diary</Text>
+                <Text className="text-sm font-sans text-slate-500">Your {province.title} diary</Text>
                 <TouchableOpacity onPress={handleEdit} className="p-2 -mr-2">
-                    <Text className="text-yellow-600 font-medium text-base">Edit</Text>
+                    <Text className="text-yellow-600 font-medium text-sm">Edit</Text>
                 </TouchableOpacity>
             </View>
 
-            <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
-                <View className="px-6 pt-6">
+            <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 24 }}>
+                <View className="px-6 pt-6 flex-col gap-5 ">
                     {/* Hero Title */}
-                    <View className="flex-row items-center mb-4">
-                        <Text className="text-3xl font-bold text-slate-800 mr-3">{province.title}</Text>
-                        <Text className="text-3xl font-sans">{PROVINCE_EMOJIS[id as string] || '🇵🇭'}</Text>
+
+                    <View className="flex-col gap-2">
+                        <View className="flex-row items-center">
+                            <Text className="text-3xl font-semibold text-slate-700">{province.title}</Text>
+                            <Text className="text-lg font-sans ml-1.5">{PROVINCE_EMOJIS[id as string] || '🇵🇭'}</Text>
+                        </View>
+
+                        <View className="flex-col gap-1">
+                            {/* Notes */}
+                            {diary.notes && (
+                                <Text className="text-slate-600 font-sans">
+                                    {diary.notes}
+                                </Text>
+                            )}
+
+                            {/* Date */}
+                            <Text className="text-sm font-sans text-slate-400">
+                                Visited {formatVisitDate(diary.startDate, diary.endDate, 'long')}
+                            </Text>
+                        </View>
                     </View>
 
-                    {/* Notes */}
-                    {diary.notes ? (
-                        <Text className="text-lg text-slate-600 leading-relaxed mb-2 font-sans">
-                            {diary.notes}
-                        </Text>
-                    ) : (
-                        <Text className="text-lg text-slate-400 italic mb-2 font-sans">No notes added.</Text>
-                    )}
 
-                    {/* Date */}
-                    <Text className="text-sm text-slate-400 font-medium mb-8">
-                        Visited {formatVisitDate(diary.startDate, diary.endDate, 'long')}
-                    </Text>
 
                     {/* Photos Grid */}
-                    <View className="mb-2">
-                        <Text className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                    <View className='flex-col gap-2.5 '>
+                        <Text className="text-sm font-sans text-slate-500 ">
                             {diary.images.length} Photos
                         </Text>
 
@@ -110,7 +115,7 @@ const DiaryScreen = () => {
                                             });
                                         }
                                     }}
-                                    className="w-[48%] aspect-square rounded-2xl overflow-hidden bg-slate-100 mb-2 relative"
+                                    className="w-[48%] aspect-square rounded-2xl overflow-hidden bg-slate-100 relative"
                                 >
                                     <Image
                                         source={{ uri: img }}
@@ -120,7 +125,7 @@ const DiaryScreen = () => {
                                     {/* Overlay for the last image if there are remaining images AND we are not showing all */}
                                     {index === 5 && remainingImagesCount > 0 && !showAllPhotos && (
                                         <View className="absolute inset-0 bg-black/40 justify-center items-center">
-                                            <Text className="text-white font-bold text-xl">+{remainingImagesCount}</Text>
+                                            <Text className="text-white font-semibold text-xl">+{remainingImagesCount}</Text>
                                         </View>
                                     )}
                                 </TouchableOpacity>
@@ -140,8 +145,8 @@ const DiaryScreen = () => {
                     </View>
 
                     {/* What did you do Tags */}
-                    <View className="mt-8">
-                        <Text className="text-base font-semibold text-slate-700 mb-3">What did you do?</Text>
+                    <View className='flex-col gap-2.5'>
+                        <Text className="text-sm font-sans text-slate-500">What did you do?</Text>
                         <View className="flex-row flex-wrap gap-2">
                             {diary.tags.map((tag, index) => (
                                 <View key={index} className="px-4 py-2 rounded-full border border-yellow-200 bg-yellow-50">
@@ -153,22 +158,23 @@ const DiaryScreen = () => {
                             )}
                         </View>
                     </View>
-                </View>
 
-                {/* Next Memory - Now inside ScrollView */}
+
+                </View>
+                {/* Next Memory*/}
                 {nextMemory && (
-                    <View className="mt-12 w-full px-6 pt-6 border-t border-slate-50">
+                    <View className="mt-12 w-full px-6  ">
                         <View className="flex-row items-center justify-between">
                             <Text className="text-sm font-medium text-slate-400">Next memory</Text>
                         </View>
                         <TouchableOpacity
-                            className="mt-3 flex-row items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100"
+                            className="mt-2.5 flex-row items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100"
                             onPress={() => {
                                 router.replace(`/diary/${nextMemory.id}`);
                             }}
                         >
                             <View className="flex-row items-center">
-                                <Text className="text-lg font-bold text-slate-700 mr-2">{nextMemory.title}</Text>
+                                <Text className="text-lg font-semibold text-slate-700 mr-2">{nextMemory.title}</Text>
                                 <Text className="text-lg font-sans">{PROVINCE_EMOJIS[nextMemory.id] || '🇵🇭'}</Text>
                             </View>
                             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
@@ -176,6 +182,8 @@ const DiaryScreen = () => {
                         <Text className="text-xs text-slate-400 mt-2 ml-1 font-sans">Visited {formatVisitDate(nextMemory.visitedDate, nextMemory.visitedDate, 'long')}</Text>
                     </View>
                 )}
+
+
             </ScrollView>
 
 

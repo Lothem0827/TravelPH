@@ -48,7 +48,23 @@ export default function Layout() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <Stack screenOptions={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="gallery" />
+                {/* Apply slide_from_bottom animation for diary screens */}
+                <Stack.Screen
+                    name="diary/[id]"
+                    options={{
+                        animation: 'slide_from_bottom',
+                    }}
+                />
+                <Stack.Screen
+                    name="diary/write"
+                    options={{
+                        animation: 'slide_from_bottom',
+                    }}
+                />
+            </Stack>
             <StatusBar style="auto" />
         </GestureHandlerRootView>
     );

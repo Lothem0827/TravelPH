@@ -36,10 +36,14 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
                     <View className='w-full flex-row justify-between gap-2.5 '>
                         <View className="flex-col gap-2">
                             <View className='flex-row flex-wrap gap-2 justify-between items-center w-full'>
+
                                 {/* Header */}
-                                <Text className="text-3xl font-semibold text-slate-700">
-                                    {provinceName || "Unknown Province"} {provinceId && PROVINCE_EMOJIS[provinceId]}
-                                </Text>
+                                <View className="flex-row items-center">
+                                    <Text className="text-3xl font-semibold text-slate-700">
+                                        {provinceName || "Unknown Province"}
+                                    </Text>
+                                    <Text className="text-lg font-sans ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</Text>
+                                </View>
 
                                 {/* Visited Badge */}
                                 <Badge label="Visited" variant="primary" />

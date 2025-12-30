@@ -295,7 +295,7 @@ const WriteDiaryScreen = () => {
                 <ScrollView
                     className="px-6 py-6 "
                     keyboardShouldPersistTaps="handled"
-                    contentContainerStyle={{ paddingBottom: 100 }}
+                    contentContainerStyle={{ paddingBottom: 24 }}
                 >
                     <View className="flex-col gap-5 ">
                         {/* Province Name */}
