@@ -1,18 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, FlatList, Image, TouchableOpacity, Dimensions } from "react-native";
 
+import ZoomableImage from "./ZoomableImage";
+
 interface GalleryViewerProps {
     images: any[];
     startIndex: number;
     getImageSource: (img: any) => any;
+    onToggleUI: () => void;
 }
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
-const GalleryViewer: React.FC<GalleryViewerProps> = ({ images, startIndex, getImageSource }) => {
+const GalleryViewer: React.FC<GalleryViewerProps> = ({ images, startIndex, getImageSource, onToggleUI }) => {
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const flatListRef = useRef<FlatList>(null);
     const mainListRef = useRef<FlatList>(null);
+    const [scrollEnabled, setScrollEnabled] = useState(true);
 
     // Initial Scroll
     useEffect(() => {
@@ -45,6 +49,7 @@ const GalleryViewer: React.FC<GalleryViewerProps> = ({ images, startIndex, getIm
                     data={images}
                     horizontal
                     pagingEnabled
+                    scrollEnabled={scrollEnabled}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(_, index) => `main-${index}`}
                     initialScrollIndex={startIndex}
@@ -60,11 +65,10 @@ const GalleryViewer: React.FC<GalleryViewerProps> = ({ images, startIndex, getIm
                         }
                     }}
                     renderItem={({ item }) => (
-                        <View style={{ width: SCREEN_WIDTH }} className="flex-1 justify-center items-center">
-                            <Image
+                        <View style={{ width: SCREEN_WIDTH, height: '100%' }}>
+                            <ZoomableImage
                                 source={getImageSource(item)}
-                                className="w-full h-full"
-                                resizeMode="contain"
+                                onTap={onToggleUI}
                             />
                         </View>
                     )}

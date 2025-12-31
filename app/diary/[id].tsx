@@ -1,10 +1,14 @@
 import React from 'react';
-import { View, Image, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Platform } from 'react-native';
+import { View, Image, ScrollView, TouchableOpacity, StatusBar, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useDiaryDetailsLogic } from '@/features/diary/hooks/useDiaryDetailsLogic';
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
 import { formatVisitDate } from '@/utils/dateUtils';
 import AppText from '@/components/AppText';
+import KebabIcon from '@/assets/icons/kebab-icon.svg';
+import DiaryActionSheet from '@/features/diary/components/DiaryActionSheet';
+import DeleteConfirmationSheet from '@/features/diary/components/DeleteConfirmationSheet';
 
 const DiaryScreen = () => {
     const {
@@ -20,7 +24,13 @@ const DiaryScreen = () => {
         handleNextMemory,
         handlePhotoPress,
         toggleShowAllPhotos,
-        router
+        router,
+        // Menu & Delete Logic
+        showMenu,
+        setShowMenu,
+        showDeleteConfirm,
+        setShowDeleteConfirm,
+        handleDelete
     } = useDiaryDetailsLogic();
 
     if (!diary || !province) {
@@ -36,13 +46,13 @@ const DiaryScreen = () => {
             <StatusBar barStyle="dark-content" backgroundColor="white" />
 
             {/* Header */}
-            <View className="px-5 py-3 flex-row items-center justify-between">
+            <View className="px-5 py-3 flex-row items-center justify-between ">
                 <TouchableOpacity onPress={() => router.back()} className="p-2 -ml-2">
                     <Ionicons name="close" size={24} color="#64748B" />
                 </TouchableOpacity>
-                <AppText variant="Body" className="text-slate-500">Your {province.title} diary</AppText>
-                <TouchableOpacity onPress={handleEdit} className="p-2 -mr-2">
-                    <AppText variant="Action" className="text-yellow-600">Edit</AppText>
+                <AppText variant="ScreenTitle">Your {province.title} diary</AppText>
+                <TouchableOpacity onPress={() => setShowMenu(true)} className="p-2 -mr-2">
+                    <KebabIcon width={24} height={24} color="#64748B" />
                 </TouchableOpacity>
             </View>
 
@@ -51,28 +61,26 @@ const DiaryScreen = () => {
                     {/* Hero Title */}
                     <View className="flex-col gap-2">
                         <View className="flex-row items-center">
-                            <AppText variant="H1">{province.title}</AppText>
+                            <AppText variant="Heading">{province.title}</AppText>
                             <AppText variant="H2" className="ml-1.5">{emoji}</AppText>
                         </View>
 
-                        <View className="flex-col gap-1">
-                            {/* Notes */}
-                            {diary.notes && (
-                                <AppText variant="Body" className="text-slate-600">
-                                    {diary.notes}
-                                </AppText>
-                            )}
-
-                            {/* Date */}
-                            <AppText variant="Body" className="text-slate-400">
-                                Visited {formattedDate}
+                        {/* Notes */}
+                        {diary.notes && (
+                            <AppText variant="Body">
+                                {diary.notes}
                             </AppText>
-                        </View>
+                        )}
+
+                        {/* Date */}
+                        <AppText variant="BodySmall" >
+                            Visited {formattedDate}
+                        </AppText>
                     </View>
 
                     {/* Photos Grid */}
                     <View className='flex-col gap-2.5 '>
-                        <AppText variant="Body" className="text-slate-500">
+                        <AppText variant="Label">
                             {diary.images.length} Photos
                         </AppText>
 
@@ -103,7 +111,7 @@ const DiaryScreen = () => {
                                 className="mt-2 self-center p-2"
                                 onPress={toggleShowAllPhotos}
                             >
-                                <AppText variant="Body" className="text-slate-500 font-medium">
+                                <AppText variant="BodySmallSemibold" className="text-slate-500">
                                     {showAllPhotos ? "Show less" : `Show all ${diary.images.length} photos`}
                                 </AppText>
                             </TouchableOpacity>
@@ -112,11 +120,11 @@ const DiaryScreen = () => {
 
                     {/* What did you do Tags */}
                     <View className='flex-col gap-2.5'>
-                        <AppText variant="Body" className="text-slate-500">What did you do?</AppText>
+                        <AppText variant="Label">What did you do?</AppText>
                         <View className="flex-row flex-wrap gap-2">
                             {diary.tags.map((tag, index) => (
                                 <View key={index} className="px-4 py-2 rounded-full border border-yellow-200 bg-yellow-50">
-                                    <AppText variant="Body" className="text-yellow-700 font-medium">{tag}</AppText>
+                                    <AppText variant="PillText">{tag}</AppText>
                                 </View>
                             ))}
                             {diary.tags.length === 0 && (
@@ -131,7 +139,7 @@ const DiaryScreen = () => {
                 {nextMemory && (
                     <View className="mt-12 w-full px-6  ">
                         <View className="flex-row items-center justify-between">
-                            <AppText variant="Body" className="font-medium text-slate-400">Next memory</AppText>
+                            <AppText variant="Label">Next memory</AppText>
                         </View>
                         <TouchableOpacity
                             className="mt-2.5 flex-row items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100"
@@ -143,10 +151,26 @@ const DiaryScreen = () => {
                             </View>
                             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
                         </TouchableOpacity>
-                        <AppText variant="Caption" className="mt-2 ml-1">Visited {formatVisitDate(nextMemory.visitedDate, nextMemory.visitedDate, 'long')}</AppText>
+                        <AppText variant="BodySmall" className="mt-2 ml-1">Visited {formatVisitDate(nextMemory.visitedDate, nextMemory.visitedDate, 'long')}</AppText>
                     </View>
                 )}
             </ScrollView>
+
+            <DiaryActionSheet
+                visible={showMenu}
+                onClose={() => setShowMenu(false)}
+                onEdit={handleEdit}
+                onDelete={() => {
+                    setShowMenu(false);
+                    setTimeout(() => setShowDeleteConfirm(true), 300); // Small delay for smooth transition
+                }}
+            />
+
+            <DeleteConfirmationSheet
+                visible={showDeleteConfirm}
+                onConfirm={handleDelete}
+                onCancel={() => setShowDeleteConfirm(false)}
+            />
         </SafeAreaView >
     );
 };

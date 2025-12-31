@@ -1,13 +1,22 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Keyboard, Dimensions } from "react-native";
 import { PROVINCES } from "@/constants/ProvinceNames";
 import { useTravelStore } from "@/store/useTravelStore";
 
 export const useMapScreenLogic = () => {
-    const { visited, wishlisted, addToWishlist, markVisited } = useTravelStore();
+    const { visited, wishlisted, addToWishlist, markVisited, shouldCloseSheet } = useTravelStore();
 
     // Dimensions
     const SHEET_HEIGHT = Dimensions.get('window').height * 0.75;
+
+    // ... (rest of code)
+
+    useEffect(() => {
+        if (shouldCloseSheet > 0) {
+            setIsBottomSheetVisible(false);
+            setFocusProvince(null); // Optional: clear focus too
+        }
+    }, [shouldCloseSheet]);
 
     // Map Colors
     const provinceColors = useMemo(() => {
@@ -82,6 +91,8 @@ export const useMapScreenLogic = () => {
 
     const closeBottomSheet = () => setIsBottomSheetVisible(false);
 
+    const visitedImages = useTravelStore(state => state.visitedImages);
+
     return {
         // Data
         visited,
@@ -93,6 +104,7 @@ export const useMapScreenLogic = () => {
         isBottomSheetVisible,
         selectedProvinceData,
         SHEET_HEIGHT,
+        visitedImages,
 
         // Actions
         handleMapPress,

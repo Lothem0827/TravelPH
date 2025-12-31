@@ -37,14 +37,14 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                         <View className="flex-col gap-2">
                             {/* Header */}
                             <View className="flex-row items-center">
-                                <AppText variant="H1">
+                                <AppText variant="Heading">
                                     {provinceName || "Unknown Province"}
                                 </AppText>
                                 <AppText variant="H2" className="ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</AppText>
                             </View>
                             {/* Subtext */}
                             {details?.subtext && (
-                                <AppText variant="Body" className="text-slate-500 font-medium">{details.subtext}</AppText>
+                                <AppText variant="Body">{details.subtext}</AppText>
                             )}
                         </View>
 
@@ -64,7 +64,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                             <View className='flex-col gap-2.5'>
                                 <View className="flex-row items-center gap-1">
                                     <HeartIcon width={14} height={14} />
-                                    <AppText variant="Body" className="text-slate-500">Why people love this place</AppText>
+                                    <AppText variant="Label">Why people love this place</AppText>
                                 </View>
                                 <View className="flex-row flex-wrap gap-2 ">
                                     {details.loveTags.length > 0 ? details.loveTags.map((tag, i) => (
@@ -81,7 +81,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                             <View className='flex-col gap-2.5'>
                                 <View className="flex-row items-center gap-1">
                                     <StarIcon width={14} height={14} />
-                                    <AppText variant="Body" className="text-slate-500 ">Where travelers go</AppText>
+                                    <AppText variant="Label">Where travelers go</AppText>
                                 </View>
                                 <View className="flex-row flex-wrap gap-2 ">
                                     {details.travelerTags.length > 0 ? details.travelerTags.map((tag, i) => (

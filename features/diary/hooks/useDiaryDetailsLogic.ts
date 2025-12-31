@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
 import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router';
-import { getDiaryDetails, getProvinceDetails, getNextVisitedProvince, DiaryDetails, ProvinceDetails } from '@/database/queries';
+import { getDiaryDetails, getProvinceDetails, getNextVisitedProvince, deleteDiaryEntry, DiaryDetails, ProvinceDetails } from '@/database/queries';
 import { formatVisitDate } from '@/utils/dateUtils';
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
+import { useTravelStore } from '@/store/useTravelStore';
 
 export const useDiaryDetailsLogic = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -11,6 +12,10 @@ export const useDiaryDetailsLogic = () => {
     const [province, setProvince] = useState<ProvinceDetails | null>(null);
     const [nextMemory, setNextMemory] = useState<{ id: string; title: string; visitedDate: string } | null>(null);
     const [showAllPhotos, setShowAllPhotos] = useState(false);
+
+    const { refreshData, triggerCloseSheet } = useTravelStore();
+    const [showMenu, setShowMenu] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const refreshDiary = useCallback(() => {
         if (id) {
@@ -31,10 +36,20 @@ export const useDiaryDetailsLogic = () => {
     );
 
     const handleEdit = () => {
+        setShowMenu(false); // Close menu if open
         router.push({
             pathname: "/diary/write",
             params: { provinceId: id as string }
         });
+    };
+
+    const handleDelete = () => {
+        if (id) {
+            deleteDiaryEntry(id as string);
+            refreshData(); // Refresh global store (map thumbnails)
+            triggerCloseSheet(); // Close bottom sheet in MapScreen
+            router.back();
+        }
     };
 
     const handleNextMemory = () => {
@@ -76,6 +91,12 @@ export const useDiaryDetailsLogic = () => {
         handleNextMemory,
         handlePhotoPress,
         toggleShowAllPhotos,
-        router
+        router,
+        // Menu & Delete Logic
+        showMenu,
+        setShowMenu,
+        showDeleteConfirm,
+        setShowDeleteConfirm,
+        handleDelete
     };
 };

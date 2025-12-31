@@ -149,7 +149,7 @@ export interface DiaryDetails {
 export const getDiaryDetails = (provinceId: string): DiaryDetails | null => {
     try {
         const diary = db.getFirstSync<{ id: number, notes: string | null, start_date: string, end_date: string }>(
-            'SELECT id, notes, start_date, end_date FROM diaries WHERE province_id = ? ORDER BY start_date DESC LIMIT 1',
+            'SELECT id, notes, start_date, end_date FROM diaries WHERE province_id = ? ORDER BY id DESC LIMIT 1',
             [provinceId]
         );
 
@@ -182,8 +182,9 @@ export const getDiaryDetails = (provinceId: string): DiaryDetails | null => {
 export const getNextVisitedProvince = (currentId: string): { id: string, title: string, visitedDate: string } | null => {
     try {
         // Get all visited provinces ordered by visit date
+        // Filter out soft-deleted entries (empty start_date)
         const visited = db.getAllSync<{ province_id: string, start_date: string }>(
-            'SELECT province_id, start_date FROM diaries ORDER BY start_date DESC'
+            'SELECT province_id, start_date FROM diaries WHERE start_date != "" ORDER BY start_date DESC'
         );
 
         if (visited.length === 0) return null;
@@ -222,3 +223,51 @@ export const getNextVisitedProvince = (currentId: string): { id: string, title: 
         return null;
     }
 }
+
+export const getAllVisitedProvinceImages = (): Record<string, string> => {
+    try {
+        // Query to get the first image for each visited province
+        // We join diaries and diary_images, grouping by province to get one image per province
+        // ONLY include images for provinces that are currently marked as VISITED
+        const results = db.getAllSync<{ province_id: string, image_uri: string }>(
+            `SELECT d.province_id, i.image_uri 
+             FROM diaries d
+             JOIN diary_images i ON d.id = i.diary_id
+             JOIN provinces p ON d.province_id = p.id
+             WHERE i.display_order = 0 AND p.visited = 1
+             GROUP BY d.province_id`
+        );
+
+        const imageMap: Record<string, string> = {};
+        results.forEach(row => {
+            imageMap[row.province_id] = row.image_uri;
+        });
+
+        return imageMap;
+    } catch (error) {
+        console.error("Error fetching visited province images:", error);
+        return {};
+    }
+};
+
+export const deleteDiaryEntry = (provinceId: string): void => {
+    db.withTransactionSync(() => {
+        // Find the diary ID for this province
+        const diary = db.getFirstSync<{ id: number }>('SELECT id FROM diaries WHERE province_id = ?', [provinceId]);
+
+        if (diary) {
+            const diaryId = diary.id;
+            // Delete tags, but KEEP images and the diary entry itself (for restoration)
+            db.runSync('DELETE FROM diary_tags WHERE diary_id = ?', [diaryId]);
+
+            // Clear content but preserve ID and images
+            db.runSync(
+                'UPDATE diaries SET notes = "", start_date = "", end_date = "" WHERE id = ?',
+                [diaryId]
+            );
+
+            // Mark province as not visited.
+            db.runSync('UPDATE provinces SET visited = 0 WHERE id = ?', [provinceId]);
+        }
+    });
+};

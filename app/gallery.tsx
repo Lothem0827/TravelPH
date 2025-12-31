@@ -1,7 +1,9 @@
 import React from "react";
-import { View, TouchableOpacity, SafeAreaView, StatusBar, Platform } from "react-native";
+import { View, TouchableOpacity, StatusBar, Platform } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useGalleryLogic } from "@/features/gallery/hooks/useGalleryLogic";
 import GalleryViewer from "@/features/gallery/components/GalleryViewer";
 import AppText from "@/components/AppText";
@@ -16,6 +18,8 @@ const GalleryScreen = () => {
         startIndex,
         getImageSource
     } = useGalleryLogic();
+
+    const [isFullScreen, setIsFullScreen] = React.useState(false);
 
 
     if (images.length === 0) return null; // Safety check
@@ -41,20 +45,28 @@ const GalleryScreen = () => {
             {/* Content Container */}
             <View className="flex-1 flex-col ">
                 {/* Header Text Block */}
-                <View className="px-6 py-6 flex-col gap-2 ">
-                    <AppText variant="H1">
-                        {provinceName} <AppText variant="H1">{emoji}</AppText>
-                    </AppText>
-                    <AppText variant="Body">
-                        {subtext}
-                    </AppText>
-                </View>
+                {/* Header Text Block */}
+                {!isFullScreen && (
+                    <Animated.View
+                        entering={FadeIn.duration(300)}
+                        exiting={FadeOut.duration(300)}
+                        className="px-6 py-6 flex-col gap-2 "
+                    >
+                        <AppText variant="H1">
+                            {provinceName} <AppText variant="H1">{emoji}</AppText>
+                        </AppText>
+                        <AppText variant="Body" className="text-slate-600">
+                            {subtext}
+                        </AppText>
+                    </Animated.View>
+                )}
 
                 {/* Gallery Viewer (Main Image + Thumbnails) */}
                 <GalleryViewer
                     images={images}
                     startIndex={startIndex}
                     getImageSource={getImageSource}
+                    onToggleUI={() => setIsFullScreen(prev => !prev)}
                 />
             </View>
         </SafeAreaView>

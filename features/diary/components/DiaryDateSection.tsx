@@ -21,7 +21,7 @@ export const DiaryDateInput: React.FC<DiaryDateInputProps> = ({
 }) => {
     return (
         <View className="flex-col gap-2">
-            <AppText variant="Body" className="text-slate-500">Date of visit</AppText>
+            <AppText variant="Label">Date of visit</AppText>
             <View className="flex-row gap-3">
                 {/* Start Date */}
                 <TouchableOpacity
@@ -30,7 +30,7 @@ export const DiaryDateInput: React.FC<DiaryDateInputProps> = ({
                 >
                     <View className="flex-row items-center gap-2 mb-1">
                         <CalendarIcon width={14} height={14} />
-                        <AppText variant="Caption" className="text-slate-500">From</AppText>
+                        <AppText variant="Label" className="text-slate-500">From</AppText>
                     </View>
                     <AppText variant="BodyBold" className="text-slate-700">{formatDate(startDate)}</AppText>
                 </TouchableOpacity>
@@ -42,7 +42,7 @@ export const DiaryDateInput: React.FC<DiaryDateInputProps> = ({
                 >
                     <View className="flex-row items-center gap-2 mb-1">
                         <CalendarIcon width={14} height={14} />
-                        <AppText variant="Caption" className="text-slate-500">To</AppText>
+                        <AppText variant="Label" className="text-slate-500">To</AppText>
                     </View>
                     <AppText variant="BodyBold" className="text-slate-700">{formatDate(endDate)}</AppText>
                 </TouchableOpacity>

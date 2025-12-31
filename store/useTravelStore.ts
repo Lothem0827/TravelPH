@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getProvinceStatuses, setVisitedStatus, setWishlistStatus, ProvinceStatus } from '@/database/queries';
+import { getProvinceStatuses, setVisitedStatus, setWishlistStatus, getAllVisitedProvinceImages, ProvinceStatus } from '@/database/queries';
 
 // Colors
 const COLOR_VISITED = "#FACC15"; // Yellow 400
@@ -8,23 +8,30 @@ const COLOR_WISHLIST = "#94A3B8"; // Slate 400
 interface TravelState {
     visited: string[];
     wishlisted: string[];
+    visitedImages: Record<string, string>; // Map provinceId -> imageUri
+    shouldCloseSheet: number;
 
     // Actions
     refreshData: () => void;
     addToWishlist: (id: string) => void;
     markVisited: (id: string) => void;
+    triggerCloseSheet: () => void;
 }
 
 export const useTravelStore = create<TravelState>((set, get) => ({
     visited: [],
     wishlisted: [],
+    visitedImages: {},
+    shouldCloseSheet: 0,
 
     refreshData: () => {
         try {
             const provinces = getProvinceStatuses();
             const visited = provinces.filter(p => p.visited).map(p => p.id);
             const wishlisted = provinces.filter(p => p.wishlisted).map(p => p.id);
-            set({ visited, wishlisted });
+            const visitedImages = getAllVisitedProvinceImages();
+
+            set({ visited, wishlisted, visitedImages });
         } catch (e) {
             console.error("Failed to load travel data:", e);
         }
@@ -66,4 +73,6 @@ export const useTravelStore = create<TravelState>((set, get) => ({
             console.error("Failed to mark visited:", e);
         }
     },
+
+    triggerCloseSheet: () => set({ shouldCloseSheet: Date.now() }),
 }));

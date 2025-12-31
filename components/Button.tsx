@@ -42,8 +42,8 @@ const Button: React.FC<ButtonProps> = ({
         >
             {icon && <View className="mr-2">{icon}</View>}
             <AppText
-                variant="BodyBold"
-                className={`text-center font-semibold text-yellow-900 ${textClassName}`}
+                variant="ButtonText"
+                className={`text-center ${textClassName}`}
                 numberOfLines={1}
                 adjustsFontSizeToFit
             >

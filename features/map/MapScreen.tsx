@@ -24,7 +24,8 @@ export default function MapScreen() {
     handleSelectProvince,
     handleAddToWishlist,
     handleMarkAsVisited,
-    closeBottomSheet
+    closeBottomSheet,
+    visitedImages
   } = useMapScreenLogic();
 
   return (
@@ -46,6 +47,7 @@ export default function MapScreen() {
           provinceColors={provinceColors}
           focusProvince={focusProvince}
           bottomSheetHeight={isBottomSheetVisible ? SHEET_HEIGHT : 0}
+          visitedImages={visitedImages}
         />
 
         {/* Visited Badge */}

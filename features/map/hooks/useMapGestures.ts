@@ -1,5 +1,5 @@
 import { Gesture } from "react-native-gesture-handler";
-import { SharedValue } from "react-native-reanimated";
+import { SharedValue, runOnJS } from "react-native-reanimated";
 import { clamp, getBounds } from "../utils/mapUtils";
 
 interface UseMapGesturesProps {
@@ -11,6 +11,8 @@ interface UseMapGesturesProps {
     savedTranslateY: SharedValue<number>;
     viewWidth: SharedValue<number>;
     viewHeight: SharedValue<number>;
+    onInteractionStart?: () => void;
+    onInteractionEnd?: () => void;
 }
 
 export const useMapGestures = ({
@@ -22,10 +24,17 @@ export const useMapGestures = ({
     savedTranslateY,
     viewWidth,
     viewHeight,
+    onInteractionStart,
+    onInteractionEnd,
 }: UseMapGesturesProps) => {
 
     // Pan Gesture
     const panGesture = Gesture.Pan()
+        .onStart(() => {
+            if (onInteractionStart) {
+                runOnJS(onInteractionStart)();
+            }
+        })
         .onUpdate((e) => {
             const { boundX, boundY } = getBounds(viewWidth.value, viewHeight.value, scale.value);
 
@@ -43,10 +52,18 @@ export const useMapGestures = ({
         .onEnd(() => {
             savedTranslateX.value = translateX.value;
             savedTranslateY.value = translateY.value;
+            if (onInteractionEnd) {
+                runOnJS(onInteractionEnd)();
+            }
         });
 
     // Pinch Gesture
     const pinchGesture = Gesture.Pinch()
+        .onStart(() => {
+            if (onInteractionStart) {
+                runOnJS(onInteractionStart)();
+            }
+        })
         .onUpdate((e) => {
             // Minimum zoom is 1, maximum zoom is 3
             const newScale = Math.min(Math.max(savedScale.value * e.scale, 1), 3);
@@ -72,6 +89,9 @@ export const useMapGestures = ({
             savedScale.value = scale.value;
             savedTranslateX.value = translateX.value;
             savedTranslateY.value = translateY.value;
+            if (onInteractionEnd) {
+                runOnJS(onInteractionEnd)();
+            }
         });
 
     const composedGesture = Gesture.Simultaneous(panGesture, pinchGesture);

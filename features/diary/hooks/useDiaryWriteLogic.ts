@@ -13,8 +13,11 @@ export const useDiaryWriteLogic = () => {
     const { refreshData } = useTravelStore();
 
     // Derived state
+    // Derived state
     const provinceDetails = provinceId ? getProvinceDetails(provinceId) : null;
-    const existingDiary = (provinceId && provinceDetails?.visited) ? getDiaryDetails(provinceId) : null;
+    // We fetch existing diary regardless of visited status to support "restoring" a soft-deleted entry
+    const existingDiary = provinceId ? getDiaryDetails(provinceId) : null;
+    // We essentially always "edit" if a row exists, but UI might feel like "add new" if it was soft-deleted.
     const isEditing = !!existingDiary;
 
     // Form state
@@ -36,18 +39,46 @@ export const useDiaryWriteLogic = () => {
     const [activeDateType, setActiveDateType] = useState<'start' | 'end'>('start');
 
     useEffect(() => {
-        if (existingDiary) {
+        if (existingDiary && existingDiary.startDate) {
+            // Active diary or soft-deleted but somehow has date (shouldn't happen if we clear it, but safe check)
             const start = new Date(existingDiary.startDate);
             const end = new Date(existingDiary.endDate);
-            setStartDate(start);
-            setEndDate(end);
-            setCurrentMonth(start);
-            setPickerYear(start.getFullYear());
+
+            // Validate dates
+            if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+                setStartDate(start);
+                setEndDate(end);
+                setCurrentMonth(start);
+                setPickerYear(start.getFullYear());
+                updateMarkedDates(start, end);
+            } else {
+                // Fallback if date string is invalid/empty 
+                const today = new Date();
+                setStartDate(today);
+                setEndDate(today);
+                setCurrentMonth(today);
+                setPickerYear(today.getFullYear());
+                updateMarkedDates(today, today);
+            }
+
             setNotes(existingDiary.notes || '');
             setTags(existingDiary.tags || []);
-            setImages(existingDiary.images || []);
-            updateMarkedDates(start, end);
+            setImages(existingDiary.images || []); // Restores images!
+        } else if (existingDiary) {
+            // Soft deleted diary (row exists, ID exists, images exist, but date/notes cleared)
+            // Treat as "New" regarding dates/notes, but restore images
+            const today = new Date();
+            setStartDate(today);
+            setEndDate(today);
+            setCurrentMonth(today);
+            setPickerYear(today.getFullYear());
+            updateMarkedDates(today, today);
+
+            setNotes('');
+            setTags([]);
+            setImages(existingDiary.images || []); // RESTORE IMAGES
         } else {
+            // Truly new
             const today = new Date();
             setCurrentMonth(today);
             setPickerYear(today.getFullYear());
@@ -222,6 +253,11 @@ export const useDiaryWriteLogic = () => {
         }
     };
 
+
+    const handleReorderImages = (newImages: string[]) => {
+        setImages(newImages);
+    };
+
     return {
         // State
         provinceDetails,
@@ -252,6 +288,7 @@ export const useDiaryWriteLogic = () => {
         handleRemoveTag,
         handlePickImage,
         handleRemoveImage,
+        handleReorderImages,
         handleSubmit,
         handleDayPress,
         changeMonth,

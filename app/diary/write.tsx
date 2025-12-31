@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity, TextInput, ScrollView, SafeAreaView, StatusBar, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, TouchableOpacity, TextInput, ScrollView, StatusBar, Platform, KeyboardAvoidingView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import CheckIcon from '@/assets/icons/check-icon.svg';
@@ -42,6 +43,7 @@ const WriteDiaryScreen = () => {
         handleRemoveTag,
         handlePickImage,
         handleRemoveImage,
+        handleReorderImages,
         handleSubmit,
         handleDayPress,
         changeMonth,
@@ -67,7 +69,7 @@ const WriteDiaryScreen = () => {
                     <Ionicons name="close" size={24} color="#64748B" />
                 </TouchableOpacity>
 
-                <AppText variant="Body" className="text-slate-500">
+                <AppText variant="ScreenTitle" className="text-slate-500 font-medium">
                     {isEditing ? 'Update Memory' : 'Save this adventure'}
                 </AppText>
 
@@ -87,10 +89,10 @@ const WriteDiaryScreen = () => {
                     <View className="flex-col gap-5 ">
                         {/* Province Name */}
                         <View className="flex-col gap-2 mb-3">
-                            <AppText variant="H1">
+                            <AppText variant="Heading">
                                 {provinceDetails.title} 🌴
                             </AppText>
-                            <AppText variant="Body" className="text-slate-600">A place you've been — let's remember it.</AppText>
+                            <AppText variant="Body">A place you've been — let's remember it.</AppText>
                         </View>
 
                         {/* Date Input */}
@@ -106,7 +108,7 @@ const WriteDiaryScreen = () => {
 
                         {/* Notes */}
                         <View className="flex-col gap-2">
-                            <AppText variant="Body" className="text-slate-500">Notes (optional)</AppText>
+                            <AppText variant="Label">Notes (optional)</AppText>
                             <TextInput
                                 className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-slate-700 min-h-[100px] placeholder:font-sans placeholder:text-slate-400"
                                 placeholder="What was the highlight of your trip?"
@@ -121,13 +123,13 @@ const WriteDiaryScreen = () => {
                         {/* Tags */}
                         <View className="flex-col gap-2">
                             <View className='flex-row items-center justify-between'>
-                                <AppText variant="Body" className="text-slate-500">What did you do?</AppText>
-                                <AppText variant="Caption" className="text-slate-400">({tags.length}/12)</AppText>
+                                <AppText variant="Label">What did you do?</AppText>
+                                <AppText variant="Label" className="text-slate-400">({tags.length}/12)</AppText>
                             </View>
                             <View className="flex-row flex-wrap gap-2 mb-2">
                                 {tags.map((tag, index) => (
                                     <View key={index} className="border border-yellow-300 rounded-full px-3.5 py-1 flex-row items-center justify-center gap-1">
-                                        <AppText variant="Action" className="text-yellow-600">{tag}</AppText>
+                                        <AppText variant="PillText" className="text-yellow-600">{tag}</AppText>
                                         <TouchableOpacity onPress={() => handleRemoveTag(index)}>
                                             <Ionicons name="close" size={14} color="#CA8A04" />
                                         </TouchableOpacity>
@@ -159,6 +161,7 @@ const WriteDiaryScreen = () => {
                             images={images}
                             onPickImage={handlePickImage}
                             onRemoveImage={handleRemoveImage}
+                            onReorderImages={handleReorderImages}
                             isProcessing={isProcessingImages}
                         />
 

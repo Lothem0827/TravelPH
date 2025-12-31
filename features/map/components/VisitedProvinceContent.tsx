@@ -40,7 +40,7 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
 
                                 {/* Header */}
                                 <View className="flex-row items-center">
-                                    <AppText variant="H1">
+                                    <AppText variant="Heading">
                                         {provinceName || "Unknown Province"}
                                     </AppText>
                                     <AppText variant="H2" className="ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</AppText>
@@ -52,17 +52,17 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
 
                             {/* Notes */}
                             {diaryDetails?.notes ? (
-                                <AppText variant="Body" className="text-slate-600">"{diaryDetails.notes}"</AppText>
+                                <AppText variant="Body">"{diaryDetails.notes}"</AppText>
                             ) : (
                                 details?.subtext && (
-                                    <AppText variant="Body" className="text-slate-600">{details.subtext}</AppText>
+                                    <AppText variant="Body">{details.subtext}</AppText>
                                 )
                             )}
 
                             {/* Visited Date */}
                             {diaryDetails && (
                                 <View>
-                                    <AppText variant="Caption">
+                                    <AppText variant="BodySmall">
                                         Visited last {formatVisitDate(diaryDetails.startDate, diaryDetails.endDate)}
                                     </AppText>
                                 </View>
