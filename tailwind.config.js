@@ -10,6 +10,12 @@ module.exports = {
         medium: ['Inter_500Medium'],
         semibold: ['Inter_600SemiBold'],
       },
+      colors: {
+        primary: '#334155', // slate-700
+        secondary: '#64748b', // slate-500
+        accent: '#ca8a04', // yellow-600
+        'accent-bg': '#fef08a', // yellow-200
+      }
     },
   },
   plugins: [],

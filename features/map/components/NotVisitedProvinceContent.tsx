@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Image, FlatList, TouchableOpacity } from 'react-native';
+import AppText from '@/components/AppText';
 import { GestureDetector, PanGesture } from 'react-native-gesture-handler';
 import { ProvinceDetails } from '@/database/queries';
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
@@ -36,14 +37,14 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                         <View className="flex-col gap-2">
                             {/* Header */}
                             <View className="flex-row items-center">
-                                <Text className="text-3xl font-semibold text-slate-700">
+                                <AppText variant="H1">
                                     {provinceName || "Unknown Province"}
-                                </Text>
-                                <Text className="text-lg font-sans ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</Text>
+                                </AppText>
+                                <AppText variant="H2" className="ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</AppText>
                             </View>
                             {/* Subtext */}
                             {details?.subtext && (
-                                <Text className="text-sm text-slate-500 font-medium">{details.subtext}</Text>
+                                <AppText variant="Body" className="text-slate-500 font-medium">{details.subtext}</AppText>
                             )}
                         </View>
 
@@ -63,7 +64,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                             <View className='flex-col gap-2.5'>
                                 <View className="flex-row items-center gap-1">
                                     <HeartIcon width={14} height={14} />
-                                    <Text className="text-sm font-sans text-slate-500">Why people love this place</Text>
+                                    <AppText variant="Body" className="text-slate-500">Why people love this place</AppText>
                                 </View>
                                 <View className="flex-row flex-wrap gap-2 ">
                                     {details.loveTags.length > 0 ? details.loveTags.map((tag, i) => (
@@ -72,7 +73,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                                             label={tag}
                                             variant="outline"
                                         />
-                                    )) : <Text className="text-gray-400 italic font-sans">No tags yet</Text>}
+                                    )) : <AppText variant="Body" className="text-gray-400 italic">No tags yet</AppText>}
                                 </View>
                             </View>
 
@@ -80,7 +81,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                             <View className='flex-col gap-2.5'>
                                 <View className="flex-row items-center gap-1">
                                     <StarIcon width={14} height={14} />
-                                    <Text className="text-sm font-sans text-slate-500 ">Where travelers go</Text>
+                                    <AppText variant="Body" className="text-slate-500 ">Where travelers go</AppText>
                                 </View>
                                 <View className="flex-row flex-wrap gap-2 ">
                                     {details.travelerTags.length > 0 ? details.travelerTags.map((tag, i) => (
@@ -89,7 +90,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                                             label={tag}
                                             variant="outline"
                                         />
-                                    )) : <Text className="text-gray-400 italic font-sans">No cities listed</Text>}
+                                    )) : <AppText variant="Body" className="text-gray-400 italic">No cities listed</AppText>}
                                 </View>
                             </View>
                         </>
@@ -116,7 +117,7 @@ const NotVisitedProvinceContent: React.FC<NotVisitedProvinceContentProps> = ({
                     className=" px-6 py-6 mb-40"
                 />
             ) : (
-                <Text className="text-gray-400 italic mt-8 font-sans">No photos available.</Text>
+                <AppText variant="Body" className="text-gray-400 italic mt-8 ml-6">No photos available.</AppText>
             )}
         </>
     );

@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import {
     Modal,
     View,
-    Text,
     Image,
     TouchableOpacity,
     FlatList,
@@ -13,6 +12,7 @@ import {
     Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import AppText from "@/components/AppText";
 
 interface ImageViewerModalProps {
     visible: boolean;
@@ -90,9 +90,9 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                         <Ionicons name="close" size={28} color="#334155" />
                     </TouchableOpacity>
 
-                    <Text className="text-lg font-semibold text-slate-700">
+                    <AppText variant="BodyBold" className="text-lg text-slate-700">
                         {provinceName}
-                    </Text>
+                    </AppText>
 
                     {/* Dummy view to balance the header for centering */}
                     <View className="w-10" />
@@ -102,12 +102,12 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 <View className="flex-1 flex-col ">
                     {/* Header Text Block */}
                     <View className="px-6 pt-2 pb-6">
-                        <Text className="text-3xl font-bold text-slate-800">
-                            {provinceName} <Text className="text-3xl">{emoji}</Text>
-                        </Text>
-                        <Text className="text-slate-500 font-sans text-base mt-1">
+                        <AppText variant="H1" className="text-3xl text-slate-800">
+                            {provinceName} <AppText variant="H1" className="text-3xl">{emoji}</AppText>
+                        </AppText>
+                        <AppText variant="Body" className="text-slate-500 font-sans text-base mt-1">
                             {subtext}
-                        </Text>
+                        </AppText>
                     </View>
 
                     {/* Main Image Area */}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Image, FlatList, TouchableOpacity } from 'react-native';
+import AppText from '@/components/AppText';
 import { GestureDetector, PanGesture } from 'react-native-gesture-handler';
 import { ProvinceDetails, DiaryDetails } from '@/database/queries';
 import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
@@ -39,10 +40,10 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
 
                                 {/* Header */}
                                 <View className="flex-row items-center">
-                                    <Text className="text-3xl font-semibold text-slate-700">
+                                    <AppText variant="H1">
                                         {provinceName || "Unknown Province"}
-                                    </Text>
-                                    <Text className="text-lg font-sans ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</Text>
+                                    </AppText>
+                                    <AppText variant="H2" className="ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</AppText>
                                 </View>
 
                                 {/* Visited Badge */}
@@ -51,25 +52,26 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
 
                             {/* Notes */}
                             {diaryDetails?.notes ? (
-                                <Text className="font-sans text-slate-600">"{diaryDetails.notes}"</Text>
+                                <AppText variant="Body" className="text-slate-600">"{diaryDetails.notes}"</AppText>
                             ) : (
                                 details?.subtext && (
-                                    <Text className="font-sans text-slate-600">{details.subtext}</Text>
+                                    <AppText variant="Body" className="text-slate-600">{details.subtext}</AppText>
                                 )
                             )}
 
                             {/* Visited Date */}
                             {diaryDetails && (
                                 <View>
-                                    <Text className="text-xs font-sans text-slate-400">
+                                    <AppText variant="Caption">
                                         Visited last {formatVisitDate(diaryDetails.startDate, diaryDetails.endDate)}
-                                    </Text>
+                                    </AppText>
                                 </View>
                             )}
                         </View>
 
 
                     </View>
+
 
 
 
@@ -121,7 +123,7 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
 
                 />
             ) : (
-                <Text className="text-gray-400 font-sans italic mt-6">No photos added.</Text>
+                <AppText variant="Body" className="text-gray-400 italic mt-6 ml-6">No photos added.</AppText>
             )}
         </>
     );

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
     View,
-    Text,
     TouchableOpacity,
     TextInput,
     ScrollView,
@@ -14,6 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { saveDiaryEntry, DiaryDetails } from '@/database/queries';
 import { useTravelStore } from '@/store/useTravelStore';
+import AppText from '@/components/AppText';
 
 interface AddDiaryScreenProps {
     visible: boolean;
@@ -159,34 +159,34 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                 {/* Header */}
                 <View className="px-6 py-4 border-b border-slate-100">
                     <TouchableOpacity onPress={onClose} className="absolute left-6 top-4 z-10">
-                        <Text className="text-2xl text-slate-700 font-sans">✕</Text>
+                        <AppText variant="H2" className="text-2xl text-slate-700">✕</AppText>
                     </TouchableOpacity>
-                    <Text className="text-center text-slate-500 font-medium">
+                    <AppText variant="BodyBold" className="text-center text-slate-500 font-medium">
                         {initialDetails ? 'Update Memory' : 'Save this adventure'}
-                    </Text>
+                    </AppText>
                 </View>
 
                 <ScrollView className="flex-1 px-6 py-6">
                     {/* Province Name */}
-                    <Text className="text-3xl font-bold text-slate-800 mb-1">
+                    <AppText variant="H1" className="text-3xl text-slate-800 mb-1">
                         {provinceName} 🌴
-                    </Text>
-                    <Text className="text-slate-500 mb-6 font-sans">A place you've been — let's remember it.</Text>
+                    </AppText>
+                    <AppText variant="Body" className="text-slate-500 mb-6 font-sans">A place you've been — let's remember it.</AppText>
 
                     {/* Date of Visit */}
-                    <Text className="text-sm font-semibold text-slate-600 mb-2">Date of visit</Text>
+                    <AppText variant="BodyBold" className="text-slate-600 mb-2">Date of visit</AppText>
                     <View className="bg-slate-50 rounded-xl p-4 mb-6 flex-row items-center justify-between">
                         <TouchableOpacity
                             onPress={() => setShowStartPicker(true)}
                             className="flex-1"
                         >
-                            <Text className="text-slate-700 font-sans">
+                            <AppText variant="Body" className="text-slate-700">
                                 📅 {formatDate(startDate)}
                                 {startDate.getTime() !== endDate.getTime() && ` - ${formatDate(endDate)}`}
-                            </Text>
+                            </AppText>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => setShowStartPicker(true)}>
-                            <Text className="text-yellow-600 font-semibold">Edit</Text>
+                            <AppText variant="Action" className="text-yellow-600 font-semibold">Edit</AppText>
                         </TouchableOpacity>
                     </View>
 
@@ -227,7 +227,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                     )}
 
                     {/* Notes */}
-                    <Text className="text-sm font-semibold text-slate-600 mb-2">Notes (optional)</Text>
+                    <AppText variant="BodyBold" className="text-slate-600 mb-2">Notes (optional)</AppText>
                     <TextInput
                         className="bg-slate-50 rounded-xl p-4 mb-6 text-slate-700 min-h-[100px]"
                         placeholder="What was the highlight of your trip?"
@@ -239,13 +239,13 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                     />
 
                     {/* What did you do */}
-                    <Text className="text-sm font-semibold text-slate-600 mb-2">What did you do?</Text>
+                    <AppText variant="BodyBold" className="text-slate-600 mb-2">What did you do?</AppText>
                     <View className="flex-row flex-wrap gap-2 mb-3">
                         {tags.map((tag, index) => (
                             <View key={index} className="bg-yellow-50 border border-yellow-200 rounded-full px-4 py-2 flex-row items-center gap-2">
-                                <Text className="text-yellow-700 font-medium">{tag}</Text>
+                                <AppText variant="Body" className="text-yellow-700 font-medium">{tag}</AppText>
                                 <TouchableOpacity onPress={() => handleRemoveTag(index)}>
-                                    <Text className="text-yellow-600 font-sans">✕</Text>
+                                    <AppText variant="Body" className="text-yellow-600 font-sans">✕</AppText>
                                 </TouchableOpacity>
                             </View>
                         ))}
@@ -263,7 +263,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                                     onPress={handleAddTag}
                                     className="bg-yellow-100 rounded-full w-8 h-8 items-center justify-center"
                                 >
-                                    <Text className="text-yellow-700 font-bold">+</Text>
+                                    <AppText variant="Body" className="text-yellow-700 font-semibold">+</AppText>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -271,8 +271,8 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
 
                     {/* Your Memories */}
                     <View className="flex-row items-center justify-between mb-2">
-                        <Text className="text-sm font-semibold text-slate-600">Your memories</Text>
-                        <Text className="text-sm text-slate-400 font-sans">{images.length}/20 Added</Text>
+                        <AppText variant="BodyBold" className="text-slate-600">Your memories</AppText>
+                        <AppText variant="Caption" className="text-slate-400 font-sans">{images.length}/20 Added</AppText>
                     </View>
 
                     <View className="flex-row flex-wrap gap-3 mb-6">
@@ -287,7 +287,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                                     onPress={() => handleRemoveImage(index)}
                                     className="absolute -top-2 -right-2 bg-white rounded-full w-6 h-6 items-center justify-center shadow-md"
                                 >
-                                    <Text className="text-slate-600 font-sans">✕</Text>
+                                    <AppText variant="Body" className="text-slate-600 font-sans">✕</AppText>
                                 </TouchableOpacity>
                             </View>
                         ))}
@@ -297,8 +297,8 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                                 onPress={handlePickImage}
                                 className="w-24 h-32 rounded-xl bg-yellow-50 border-2 border-dashed border-yellow-200 items-center justify-center"
                             >
-                                <Text className="text-4xl text-yellow-400 mb-1 font-sans">📷</Text>
-                                <Text className="text-xs text-yellow-600 font-medium">Add photos</Text>
+                                <AppText variant="H1" className="text-4xl text-yellow-400 mb-1">📷</AppText>
+                                <AppText variant="Caption" className="text-yellow-600 font-medium">Add photos</AppText>
                             </TouchableOpacity>
                         )}
                     </View>
@@ -310,9 +310,9 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                         onPress={handleSave}
                         className="bg-yellow-400 rounded-xl py-4 items-center active:bg-yellow-500"
                     >
-                        <Text className="text-white font-bold text-lg">
+                        <AppText variant="BodyBold" className="text-white font-semibold text-lg">
                             {initialDetails ? 'Update Visit' : 'Save visit'}
-                        </Text>
+                        </AppText>
                     </TouchableOpacity>
                 </View>
             </View>

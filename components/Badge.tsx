@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
+import AppText from '@/components/AppText';
 
 type BadgeVariant = 'primary' | 'secondary' | 'outline';
 
@@ -48,11 +49,12 @@ const Badge: React.FC<BadgeProps> = ({
             className={`self-start px-3 py-1.5 rounded-full border ${getVariantStyles()} ${className}`}
             {...props}
         >
-            <Text
+            <AppText
+                variant="BodyBold"
                 className={`text-xs font-semibold text-center ${getTextVariantStyles()} ${textClassName}`}
             >
                 {label}
-            </Text>
+            </AppText>
         </View>
     );
 };

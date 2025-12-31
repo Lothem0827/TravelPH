@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import AppText from '@/components/AppText';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline';
 
@@ -40,13 +41,14 @@ const Button: React.FC<ButtonProps> = ({
             {...props}
         >
             {icon && <View className="mr-2">{icon}</View>}
-            <Text
+            <AppText
+                variant="BodyBold"
                 className={`text-center font-semibold text-yellow-900 ${textClassName}`}
                 numberOfLines={1}
                 adjustsFontSizeToFit
             >
                 {title}
-            </Text>
+            </AppText>
         </TouchableOpacity>
     );
 };

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useTravelStore } from '@/store/useTravelStore';
 import FlagIcon from '@/assets/icons/flag-icon.svg';
+import AppText from '@/components/AppText';
 
 export default function ProvinceStats() {
     const { visited, wishlisted } = useTravelStore();
@@ -10,32 +11,25 @@ export default function ProvinceStats() {
     const wishlistCount = wishlisted.length;
 
     return (
-        <View className={styles.container}>
+        <View className="flex-row items-center bg-white rounded-full px-4 py-3 gap-3">
             {/* Visited Stat */}
-            <View className={styles.statItem}>
+            <View className="flex-row items-center gap-1">
                 <FlagIcon width={14} height={14} color="#FACC15" />
-                <Text className={styles.text}>
-                    {visitedCount > 0 && <Text className={styles.boldText}>{visitedCount} </Text>}
+                <AppText variant="Body" className="text-slate-500">
+                    {visitedCount > 0 && <AppText variant="BodyBold" className="text-slate-700">{visitedCount} </AppText>}
                     Visited
-                </Text>
+                </AppText>
             </View>
 
 
             {/* Wishlist Stat */}
-            <View className={styles.statItem}>
+            <View className="flex-row items-center gap-1">
                 <FlagIcon width={14} height={14} color="#CBD5E1" />
-                <Text className={styles.text}>
-                    {wishlistCount > 0 && <Text className={styles.boldText}>{wishlistCount} </Text>}
+                <AppText variant="Body" className="text-slate-500">
+                    {wishlistCount > 0 && <AppText variant="BodyBold" className="text-slate-700">{wishlistCount} </AppText>}
                     Wishlist
-                </Text>
+                </AppText>
             </View>
         </View>
     );
 }
-
-const styles = {
-    container: `flex-row items-center bg-white rounded-full px-4 py-3 gap-3`,
-    statItem: `flex-row items-center gap-1`,
-    text: `text-slate-500 text-sm font-sans`,
-    boldText: `font-semibold text-slate-700`,
-};

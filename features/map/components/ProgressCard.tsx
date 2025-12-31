@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Svg, { Circle, G } from "react-native-svg";
 import Animated, {
     useSharedValue,
@@ -7,6 +7,8 @@ import Animated, {
     withTiming,
     Easing,
 } from "react-native-reanimated";
+import AppText from "@/components/AppText";
+
 // Animated Circle for Reanimated
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -43,18 +45,18 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage, rankTitle = "Cu
             <View className="items-center justify-center">
                 <View className="w-12 h-12 bg-[#EAB308] rounded-full items-center justify-center shadow-sm">
                     {/* Placeholder for Compass Icon if not available, or use a generic one */}
-                    <Text className="text-white font-bold text-xl">🧭</Text>
+                    <AppText variant="H2" className="text-white text-xl">🧭</AppText>
                 </View>
             </View>
 
             {/* Center Text */}
             <View className="flex-1 px-4">
-                <Text className="text-[#92400E] font-bold text-lg font-sans">
+                <AppText variant="BodyBold" className="text-[#92400E] text-lg">
                     {rankTitle}
-                </Text>
-                <Text className="text-[#92400E] text-sm font-sans opacity-80">
+                </AppText>
+                <AppText variant="Body" className="text-[#92400E] text-sm opacity-80">
                     You explored {Math.round(percentage)}% of Philippines.
-                </Text>
+                </AppText>
             </View>
 
             {/* Right Donut Chart */}
@@ -91,9 +93,9 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage, rankTitle = "Cu
                     </Svg>
                     {/* Percentage Text Overlay */}
                     <View className="absolute inset-0 items-center justify-center">
-                        <Text className="text-[#92400E] text-[10px] font-bold font-sans">
+                        <AppText variant="Caption" className="text-[#92400E] text-[10px] font-semibold">
                             {Math.round(percentage)}%
-                        </Text>
+                        </AppText>
                     </View>
                 </View>
             </View>

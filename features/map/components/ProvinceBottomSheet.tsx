@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import React from 'react';
+import { View, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
-import Animated, {
-    useSharedValue,
-    useAnimatedStyle,
-    withTiming,
-    runOnJS,
-} from 'react-native-reanimated';
-import { Gesture } from 'react-native-gesture-handler';
-import { getProvinceDetails, ProvinceDetails, getDiaryDetails, DiaryDetails } from '@/database/queries';
+import Animated from 'react-native-reanimated';
 import Button from '@/components/Button';
 import VisitedProvinceContent from './VisitedProvinceContent';
 import NotVisitedProvinceContent from './NotVisitedProvinceContent';
-
+import AppText from '@/components/AppText';
 import CheckIcon from '@/assets/icons/check-icon.svg';
+import { useProvinceBottomSheetLogic } from '@/features/map/hooks/useProvinceBottomSheetLogic';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 // Increase content height to accommodate images and tags
@@ -37,134 +31,25 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
     onMarkVisited,
 }) => {
     const router = useRouter();
-    const translateY = useSharedValue(SCREEN_HEIGHT);
-    const [details, setDetails] = useState<ProvinceDetails | null>(null);
-    const [diaryDetails, setDiaryDetails] = useState<DiaryDetails | null>(null);
-    const [isWishlisted, setIsWishlisted] = useState(false);
 
-    const context = useSharedValue({ y: 0 });
-
-    // Gesture only for the handle bar area
-    const panGesture = Gesture.Pan()
-        .onStart(() => {
-            context.value = { y: translateY.value };
-        })
-        .onUpdate((event) => {
-            // Only allow dragging down (positive Y) from the 0 position
-            const newY = event.translationY + context.value.y;
-            if (newY >= 0) {
-                translateY.value = newY;
-            }
-        })
-        .onEnd(() => {
-            if (translateY.value > 100) {
-                // Close if dragged down more than 100px
-                translateY.value = withTiming(SCREEN_HEIGHT);
-                runOnJS(onClose)();
-            } else {
-                // Snap back to 0 (fully visible)
-                translateY.value = withTiming(0);
-            }
-        });
-
-    useEffect(() => {
-        if (isVisible) {
-            // Fetch details when opening
-            if (provinceId) {
-                try {
-                    const data = getProvinceDetails(provinceId);
-                    setDetails(data);
-
-                    if (data?.visited) {
-                        try {
-                            const diary = getDiaryDetails(provinceId);
-                            setDiaryDetails(diary);
-                        } catch (error) {
-                            console.error('Error fetching diary details:', error);
-                            setDiaryDetails(null);
-                        }
-                    } else {
-                        setDiaryDetails(null);
-                    }
-                } catch (error) {
-                    console.error('Error fetching province details:', error);
-                }
-            }
-            translateY.value = withTiming(0, { duration: 300 });
-            // Initialize wishlisted state
-            setIsWishlisted(false);
-        } else {
-            translateY.value = withTiming(SCREEN_HEIGHT);
-        }
-    }, [isVisible, provinceId]);
-
-    // Update isWishlisted when details change
-    useEffect(() => {
-        setIsWishlisted(details?.wishlisted || false);
-    }, [details]);
-
-    const rBottomSheetStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateY: translateY.value }],
-        };
+    const {
+        rBottomSheetStyle,
+        details,
+        diaryDetails,
+        isWishlisted,
+        panGesture,
+        handleOpenDiaryScreen,
+        handleImagePress,
+        handleAddToWishlist,
+        translateYValue,
+    } = useProvinceBottomSheetLogic({
+        isVisible,
+        provinceId,
+        onClose,
+        onAddToWishlist
     });
 
-    if (!isVisible && translateY.value === SCREEN_HEIGHT) return null;
-
-    const handleOpenDiaryScreen = () => {
-        if (provinceId) {
-            // Close bottom sheet first? Or keep it? 
-            // If we push, the bottom sheet stays mounted but hidden? 
-            // Better to close it so when we come back we see the map?
-            // User flow: Click "I've been here" -> Full screen form -> Save -> Back to Map.
-            // When back to map, the province is now visited. So we probably want the bottom sheet to close or refresh.
-            // Let's close it for now.
-            onClose();
-            router.push({
-                pathname: "/diary/write",
-                params: { provinceId }
-            });
-        }
-    };
-
-    const handleImagePress = (index: number) => {
-        if (provinceId) {
-            router.push({
-                pathname: "/gallery",
-                params: { provinceId, initialIndex: index.toString() }
-            });
-        }
-    };
-
-    const handleAddToWishlist = () => {
-        if (isWishlisted) {
-            // Remove from wishlist
-            onAddToWishlist(); // This will toggle in the database
-            setIsWishlisted(false);
-
-            // Refresh province details after database update
-            setTimeout(() => {
-                if (provinceId) {
-                    const updatedDetails = getProvinceDetails(provinceId);
-                    setDetails(updatedDetails);
-                }
-            }, 100);
-            // Don't close when removing
-        } else {
-            // Add to wishlist
-            onAddToWishlist();
-            setIsWishlisted(true);
-
-            // Refresh province details after database update
-            setTimeout(() => {
-                if (provinceId) {
-                    const updatedDetails = getProvinceDetails(provinceId);
-                    setDetails(updatedDetails);
-                }
-            }, 100);
-            // Don't close when adding - let user stay on the sheet
-        }
-    };
+    if (!isVisible && translateYValue.value === SCREEN_HEIGHT) return null;
 
     return (
         <>
@@ -194,7 +79,7 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                             />
                         )
                     ) : (
-                        <Text className="text-slate-400 font-sans">Loading...</Text>
+                        <AppText variant="Body" className="text-slate-400">Loading...</AppText>
                     )}
                 </View>
 
@@ -227,13 +112,8 @@ const ProvinceBottomSheet: React.FC<ProvinceBottomSheetProps> = ({
                     )}
                 </View>
             </Animated.View>
-
-
-
         </>
     );
 };
-
-
 
 export default ProvinceBottomSheet;

@@ -37,14 +37,6 @@ export default function Layout() {
         return null;
     }
 
-    if (loaded) {
-        SplashScreen.hideAsync();
-    }
-
-    if (!loaded && !error) {
-        return null;
-    }
-
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack screenOptions={{ headerShown: false }}>
