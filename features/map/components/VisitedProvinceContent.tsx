@@ -43,7 +43,7 @@ const VisitedProvinceContent: React.FC<VisitedProvinceContentProps> = ({
                                     <AppText variant="Heading">
                                         {provinceName || "Unknown Province"}
                                     </AppText>
-                                    <AppText variant="H2" className="ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</AppText>
+                                    <AppText variant="Body" className="ml-1.5">{PROVINCE_EMOJIS[provinceId as string] || '🇵🇭'}</AppText>
                                 </View>
 
                                 {/* Visited Badge */}

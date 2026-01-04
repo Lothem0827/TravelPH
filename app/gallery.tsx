@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StatusBar, Platform } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import CloseIcon from "@/assets/icons/close-icon.svg";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useGalleryLogic } from "@/features/gallery/hooks/useGalleryLogic";
 import GalleryViewer from "@/features/gallery/components/GalleryViewer";
@@ -31,10 +32,10 @@ const GalleryScreen = () => {
             {/* Header */}
             <View className="px-5 py-3 flex-row items-center justify-between">
                 <TouchableOpacity onPress={() => router.back()} className="p-2 -ml-2">
-                    <Ionicons name="close" size={24} color="#64748B" />
+                    <CloseIcon width={24} height={24} color="#64748B" />
                 </TouchableOpacity>
 
-                <AppText variant="Body" className="text-slate-500">
+                <AppText variant="ScreenTitle" className="text-slate-500">
                     {provinceName} &middot; {images.length} photos
                 </AppText>
 
@@ -52,8 +53,8 @@ const GalleryScreen = () => {
                         exiting={FadeOut.duration(300)}
                         className="px-6 py-6 flex-col gap-2 "
                     >
-                        <AppText variant="H1">
-                            {provinceName} <AppText variant="H1">{emoji}</AppText>
+                        <AppText variant="Heading">
+                            {provinceName} <AppText variant="Heading">{emoji}</AppText>
                         </AppText>
                         <AppText variant="Body" className="text-slate-600">
                             {subtext}

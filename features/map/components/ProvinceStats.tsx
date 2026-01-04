@@ -15,7 +15,7 @@ export default function ProvinceStats() {
             {/* Visited Stat */}
             <View className="flex-row items-center gap-1">
                 <FlagIcon width={14} height={14} color="#FACC15" />
-                <AppText variant="Body" className="text-slate-500">
+                <AppText variant="BodySmall" className="text-slate-500">
                     {visitedCount > 0 && <AppText variant="BodyBold" className="text-slate-700">{visitedCount} </AppText>}
                     Visited
                 </AppText>
@@ -25,7 +25,7 @@ export default function ProvinceStats() {
             {/* Wishlist Stat */}
             <View className="flex-row items-center gap-1">
                 <FlagIcon width={14} height={14} color="#CBD5E1" />
-                <AppText variant="Body" className="text-slate-500">
+                <AppText variant="BodySmall" className="text-slate-500">
                     {wishlistCount > 0 && <AppText variant="BodyBold" className="text-slate-700">{wishlistCount} </AppText>}
                     Wishlist
                 </AppText>

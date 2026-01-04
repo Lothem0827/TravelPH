@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import CheckIcon from '@/assets/icons/check-icon.svg';
+import CloseIcon from '@/assets/icons/close-icon.svg';
 import Button from '@/components/Button';
 import AppText from '@/components/AppText';
 import { useDiaryWriteLogic } from '@/features/diary/hooks/useDiaryWriteLogic';
@@ -66,7 +67,7 @@ const WriteDiaryScreen = () => {
             {/* Header */}
             <View className="px-5 py-3 flex-row items-center justify-between">
                 <TouchableOpacity onPress={() => router.back()} className="p-2 -ml-2">
-                    <Ionicons name="close" size={24} color="#64748B" />
+                    <CloseIcon width={24} height={24} color="#64748B" />
                 </TouchableOpacity>
 
                 <AppText variant="ScreenTitle" className="text-slate-500 font-medium">
@@ -124,14 +125,14 @@ const WriteDiaryScreen = () => {
                         <View className="flex-col gap-2">
                             <View className='flex-row items-center justify-between'>
                                 <AppText variant="Label">What did you do?</AppText>
-                                <AppText variant="Label" className="text-slate-400">({tags.length}/12)</AppText>
+                                <AppText variant="Label" >({tags.length}/12)</AppText>
                             </View>
                             <View className="flex-row flex-wrap gap-2 mb-2">
                                 {tags.map((tag, index) => (
                                     <View key={index} className="border border-yellow-300 rounded-full px-3.5 py-1 flex-row items-center justify-center gap-1">
                                         <AppText variant="PillText" className="text-yellow-600">{tag}</AppText>
                                         <TouchableOpacity onPress={() => handleRemoveTag(index)}>
-                                            <Ionicons name="close" size={14} color="#CA8A04" />
+                                            <CloseIcon width={14} height={14} color="#CA8A04" />
                                         </TouchableOpacity>
                                     </View>
                                 ))}

@@ -30,9 +30,9 @@ export const DiaryDateInput: React.FC<DiaryDateInputProps> = ({
                 >
                     <View className="flex-row items-center gap-2 mb-1">
                         <CalendarIcon width={14} height={14} />
-                        <AppText variant="Label" className="text-slate-500">From</AppText>
+                        <AppText variant="Label" className="text-xs">From</AppText>
                     </View>
-                    <AppText variant="BodyBold" className="text-slate-700">{formatDate(startDate)}</AppText>
+                    <AppText variant="BodyBold" >{formatDate(startDate)}</AppText>
                 </TouchableOpacity>
 
                 {/* End Date */}
@@ -42,9 +42,9 @@ export const DiaryDateInput: React.FC<DiaryDateInputProps> = ({
                 >
                     <View className="flex-row items-center gap-2 mb-1">
                         <CalendarIcon width={14} height={14} />
-                        <AppText variant="Label" className="text-slate-500">To</AppText>
+                        <AppText variant="Label" className="text-xs">To</AppText>
                     </View>
-                    <AppText variant="BodyBold" className="text-slate-700">{formatDate(endDate)}</AppText>
+                    <AppText variant="BodyBold" >{formatDate(endDate)}</AppText>
                 </TouchableOpacity>
             </View>
         </View>
@@ -106,7 +106,7 @@ export const DiaryCalendarModal: React.FC<DiaryCalendarModalProps> = ({
         >
             <View className="flex-1 bg-black/50 justify-center items-center p-4">
                 <View className="bg-white rounded-2xl w-full max-w-sm overflow-hidden p-4">
-                    <AppText variant="H2" className="text-slate-700 mb-4 text-center">
+                    <AppText variant="Heading" className="text-slate-700 mb-4 text-center">
                         {activeDateType === 'start' ? 'Select Start Date' : 'Select End Date'}
                     </AppText>
 
@@ -117,7 +117,7 @@ export const DiaryCalendarModal: React.FC<DiaryCalendarModalProps> = ({
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => setYearPickerVisible(!isYearPickerVisible)}>
-                            <AppText variant="H2" className="text-slate-800">
+                            <AppText variant="Heading" className="text-slate-800">
                                 {monthName}
                             </AppText>
                         </TouchableOpacity>
@@ -134,7 +134,7 @@ export const DiaryCalendarModal: React.FC<DiaryCalendarModalProps> = ({
                                 <TouchableOpacity onPress={() => setPickerYear(pickerYear - 1)} className="p-2">
                                     <Ionicons name="chevron-back" size={24} color="#ca8a04" />
                                 </TouchableOpacity>
-                                <AppText variant="H2" className="text-slate-800 mx-8">{pickerYear}</AppText>
+                                <AppText variant="Heading" className="text-slate-800 mx-8">{pickerYear}</AppText>
                                 <TouchableOpacity onPress={() => setPickerYear(pickerYear + 1)} className="p-2">
                                     <Ionicons name="chevron-forward" size={24} color="#ca8a04" />
                                 </TouchableOpacity>

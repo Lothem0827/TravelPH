@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-expo-app",
-    "slug": "my-expo-app",
+    "name": "Pinas Diary",
+    "slug": "pinas-diary",
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/favicon.png"
@@ -14,7 +14,7 @@
       "expo-sqlite",
       "expo-font"
     ],
-    "scheme": "my-expo-app",
+    "scheme": "pinas-diary",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -30,9 +30,16 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.carl.pinasdiary",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d1cd6935-da8b-4db6-9174-90a3896c206f"
       }
     }
   }

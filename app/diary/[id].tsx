@@ -7,6 +7,7 @@ import { PROVINCE_EMOJIS } from '@/constants/ProvinceEmojis';
 import { formatVisitDate } from '@/utils/dateUtils';
 import AppText from '@/components/AppText';
 import KebabIcon from '@/assets/icons/kebab-icon.svg';
+import CloseIcon from '@/assets/icons/close-icon.svg';
 import DiaryActionSheet from '@/features/diary/components/DiaryActionSheet';
 import DeleteConfirmationSheet from '@/features/diary/components/DeleteConfirmationSheet';
 
@@ -48,11 +49,11 @@ const DiaryScreen = () => {
             {/* Header */}
             <View className="px-5 py-3 flex-row items-center justify-between ">
                 <TouchableOpacity onPress={() => router.back()} className="p-2 -ml-2">
-                    <Ionicons name="close" size={24} color="#64748B" />
+                    <CloseIcon width={24} height={24} color="#64748B" />
                 </TouchableOpacity>
                 <AppText variant="ScreenTitle">Your {province.title} diary</AppText>
                 <TouchableOpacity onPress={() => setShowMenu(true)} className="p-2 -mr-2">
-                    <KebabIcon width={24} height={24} color="#64748B" />
+                    <KebabIcon width={24} height={24} />
                 </TouchableOpacity>
             </View>
 
@@ -62,7 +63,7 @@ const DiaryScreen = () => {
                     <View className="flex-col gap-2">
                         <View className="flex-row items-center">
                             <AppText variant="Heading">{province.title}</AppText>
-                            <AppText variant="H2" className="ml-1.5">{emoji}</AppText>
+                            <AppText variant="Body" className="ml-1.5">{emoji}</AppText>
                         </View>
 
                         {/* Notes */}
@@ -81,6 +82,7 @@ const DiaryScreen = () => {
                     {/* Photos Grid */}
                     <View className='flex-col gap-2.5 '>
                         <AppText variant="Label">
+
                             {diary.images.length} Photos
                         </AppText>
 
@@ -99,7 +101,7 @@ const DiaryScreen = () => {
                                     {/* Overlay for the last image if there are remaining images AND we are not showing all */}
                                     {index === 5 && remainingImagesCount > 0 && !showAllPhotos && (
                                         <View className="absolute inset-0 bg-black/40 justify-center items-center">
-                                            <AppText variant="H2" className="text-white text-xl">+{remainingImagesCount}</AppText>
+                                            <AppText variant="Heading" className="text-white text-xl">+{remainingImagesCount}</AppText>
                                         </View>
                                     )}
                                 </TouchableOpacity>
@@ -108,10 +110,10 @@ const DiaryScreen = () => {
 
                         {diary.images.length > 6 && (
                             <TouchableOpacity
-                                className="mt-2 self-center p-2"
+                                className="self-center p-2"
                                 onPress={toggleShowAllPhotos}
                             >
-                                <AppText variant="BodySmallSemibold" className="text-slate-500">
+                                <AppText variant="AlertText" >
                                     {showAllPhotos ? "Show less" : `Show all ${diary.images.length} photos`}
                                 </AppText>
                             </TouchableOpacity>
@@ -146,8 +148,8 @@ const DiaryScreen = () => {
                             onPress={handleNextMemory}
                         >
                             <View className="flex-row items-center">
-                                <AppText variant="H2" className="text-slate-700 mr-2">{nextMemory.title}</AppText>
-                                <AppText variant="H2">{PROVINCE_EMOJIS[nextMemory.id] || '🇵🇭'}</AppText>
+                                <AppText variant="BodyBoldLarge" className="text-slate-700 mr-2">{nextMemory.title}</AppText>
+                                <AppText variant="Body">{PROVINCE_EMOJIS[nextMemory.id] || '🇵🇭'}</AppText>
                             </View>
                             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
                         </TouchableOpacity>
@@ -162,7 +164,7 @@ const DiaryScreen = () => {
                 onEdit={handleEdit}
                 onDelete={() => {
                     setShowMenu(false);
-                    setTimeout(() => setShowDeleteConfirm(true), 300); // Small delay for smooth transition
+                    setShowDeleteConfirm(true);
                 }}
             />
 

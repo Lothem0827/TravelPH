@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from "@expo/vector-icons";
+import CloseIcon from "@/assets/icons/close-icon.svg";
 import AppText from "@/components/AppText";
 
 interface ImageViewerModalProps {
@@ -87,7 +88,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 {/* Header */}
                 <View className="px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
                     <TouchableOpacity onPress={onClose} className="p-2 -ml-2">
-                        <Ionicons name="close" size={28} color="#334155" />
+                        <CloseIcon width={28} height={28} color="#64748B" />
                     </TouchableOpacity>
 
                     <AppText variant="BodyBold" className="text-lg text-slate-700">
@@ -102,8 +103,8 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 <View className="flex-1 flex-col ">
                     {/* Header Text Block */}
                     <View className="px-6 pt-2 pb-6">
-                        <AppText variant="H1" className="text-3xl text-slate-800">
-                            {provinceName} <AppText variant="H1" className="text-3xl">{emoji}</AppText>
+                        <AppText variant="Heading" className="text-3xl text-slate-800">
+                            {provinceName} <AppText variant="Heading" className="text-3xl">{emoji}</AppText>
                         </AppText>
                         <AppText variant="Body" className="text-slate-500 font-sans text-base mt-1">
                             {subtext}
@@ -114,6 +115,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                     {/* Main Image Area */}
                     <View className="flex-1 justify-center items-center bg-slate-50 overflow-hidden">
                         <FlatList
+
                             ref={mainListRef}
                             data={images}
                             horizontal

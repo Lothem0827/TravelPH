@@ -21,7 +21,7 @@ const DiaryActionSheet: React.FC<DiaryActionSheetProps> = ({ visible, onEdit, on
             <TouchableWithoutFeedback onPress={onClose}>
                 <View className="flex-1 bg-black/50 justify-end">
                     <TouchableWithoutFeedback>
-                        <View className="bg-white rounded-t-3xl p-6 pb-10 gap-4">
+                        <View className="bg-white rounded-t-3xl p-6 pb-6 gap-3">
 
 
                             <Button

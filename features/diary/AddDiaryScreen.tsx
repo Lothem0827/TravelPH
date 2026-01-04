@@ -159,7 +159,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                 {/* Header */}
                 <View className="px-6 py-4 border-b border-slate-100">
                     <TouchableOpacity onPress={onClose} className="absolute left-6 top-4 z-10">
-                        <AppText variant="H2" className="text-2xl text-slate-700">✕</AppText>
+                        <AppText variant="BodyBoldLarge" className="text-2xl text-slate-700">✕</AppText>
                     </TouchableOpacity>
                     <AppText variant="BodyBold" className="text-center text-slate-500 font-medium">
                         {initialDetails ? 'Update Memory' : 'Save this adventure'}
@@ -168,7 +168,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
 
                 <ScrollView className="flex-1 px-6 py-6">
                     {/* Province Name */}
-                    <AppText variant="H1" className="text-3xl text-slate-800 mb-1">
+                    <AppText variant="Heading" className="text-3xl text-slate-800 mb-1">
                         {provinceName} 🌴
                     </AppText>
                     <AppText variant="Body" className="text-slate-500 mb-6 font-sans">A place you've been — let's remember it.</AppText>
@@ -186,7 +186,7 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                             </AppText>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => setShowStartPicker(true)}>
-                            <AppText variant="Action" className="text-yellow-600 font-semibold">Edit</AppText>
+                            <AppText variant="BodySmallSemibold" className="text-yellow-600 font-semibold">Edit</AppText>
                         </TouchableOpacity>
                     </View>
 
@@ -271,8 +271,8 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
 
                     {/* Your Memories */}
                     <View className="flex-row items-center justify-between mb-2">
-                        <AppText variant="BodyBold" className="text-slate-600">Your memories</AppText>
-                        <AppText variant="Caption" className="text-slate-400 font-sans">{images.length}/20 Added</AppText>
+                        <AppText variant="Label" className="text-slate-600">Your memories</AppText>
+                        <AppText variant="BodySmall" className="text-slate-400 font-sans">{images.length}/20 Added</AppText>
                     </View>
 
                     <View className="flex-row flex-wrap gap-3 mb-6">
@@ -297,8 +297,8 @@ const AddDiaryScreen: React.FC<AddDiaryScreenProps> = ({
                                 onPress={handlePickImage}
                                 className="w-24 h-32 rounded-xl bg-yellow-50 border-2 border-dashed border-yellow-200 items-center justify-center"
                             >
-                                <AppText variant="H1" className="text-4xl text-yellow-400 mb-1">📷</AppText>
-                                <AppText variant="Caption" className="text-yellow-600 font-medium">Add photos</AppText>
+                                <AppText variant="Heading" className="text-4xl text-yellow-400 mb-1">📷</AppText>
+                                <AppText variant="BodySmall" className="text-yellow-600 font-medium">Add photos</AppText>
                             </TouchableOpacity>
                         )}
                     </View>

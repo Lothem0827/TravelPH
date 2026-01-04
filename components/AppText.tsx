@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, TextProps } from 'react-native';
-import { TYPOGRAPHY, NEW_TYPOGRAPHY } from '@/styles/theme';
+import { TYPOGRAPHY } from '@/styles/theme';
 
-const VARIANTS = { ...TYPOGRAPHY, ...NEW_TYPOGRAPHY };
+const VARIANTS = { ...TYPOGRAPHY };
 type TypographyVariant = keyof typeof VARIANTS;
 
 interface AppTextProps extends TextProps {

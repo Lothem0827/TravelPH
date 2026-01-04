@@ -45,7 +45,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage, rankTitle = "Cu
             <View className="items-center justify-center">
                 <View className="w-12 h-12 bg-[#EAB308] rounded-full items-center justify-center shadow-sm">
                     {/* Placeholder for Compass Icon if not available, or use a generic one */}
-                    <AppText variant="H2" className="text-white text-xl">🧭</AppText>
+                    <AppText variant="Heading" className="text-white text-xl">🧭</AppText>
                 </View>
             </View>
 

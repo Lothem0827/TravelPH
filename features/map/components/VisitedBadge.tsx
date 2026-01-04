@@ -13,7 +13,7 @@ const VisitedBadge: React.FC<VisitedBadgeProps> = ({ visitedCount }) => {
             <ExploreIcon width={20} height={20} />
             <AppText variant="AlertText" className="flex-1">
                 {visitedCount > 0 ? (
-                    <>You’ve been to {visitedCount} provinces in the Philippines.</>
+                    <>You’ve been to <AppText variant="AlertText" className="font-semibold">{visitedCount} provinces </AppText>in the Philippines.</>
                 ) : (
                     "Search or tap a province to start diary"
                 )}
