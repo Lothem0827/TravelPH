@@ -15,6 +15,10 @@ module.exports = {
         secondary: '#64748b', // slate-500
         accent: '#ca8a04', // yellow-600
         'accent-bg': '#fef08a', // yellow-200
+      },
+      flex: {
+        '2': '2 2 0%',
+        '3': '3 3 0%',
       }
     },
   },

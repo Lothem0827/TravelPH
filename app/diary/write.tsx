@@ -61,7 +61,7 @@ const WriteDiaryScreen = () => {
     );
 
     return (
-        <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }}>
+        <SafeAreaView className="flex-1 bg-white">
             <StatusBar barStyle="dark-content" backgroundColor="white" />
 
             {/* Header */}

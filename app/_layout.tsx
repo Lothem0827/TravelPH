@@ -1,6 +1,7 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import { initDatabase } from '@/database/init';
 import { useTravelStore } from '@/store/useTravelStore';
+import { useOnboardingStore } from '@/store/useOnboardingStore';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
@@ -23,15 +24,42 @@ export default function Layout() {
         Inter_600SemiBold,
     });
 
+    const { hasOnboarded, _hasHydrated, resetOnboarding } = useOnboardingStore();
+    const router = useRouter();
+    const segments = useSegments();
+
     useEffect(() => {
         initDatabase();
         useTravelStore.getState().refreshData(); // Load initial data from DB
+
         if (error) console.error("Font load error:", error);
-        if (loaded) {
-            console.log("Fonts loaded successfully!");
+
+        if (loaded && _hasHydrated) {
+            console.log("Fonts loaded and store hydrated!");
             SplashScreen.hideAsync();
         }
-    }, [loaded, error]);
+    }, [loaded, error, _hasHydrated]);
+
+    // TEMP: Always show onboarding for development
+    useEffect(() => {
+        if (_hasHydrated) {
+            resetOnboarding();
+        }
+    }, [_hasHydrated]);
+
+    useEffect(() => {
+        if (!loaded || !_hasHydrated) return;
+
+        const inAuthGroup = segments[0] === '(auth)'; // just in case we have auth later
+
+        if (!hasOnboarded) {
+            // Redirect to onboarding if not onboarded
+            router.replace('/onboarding');
+        } else if (hasOnboarded && segments[0] === 'onboarding') {
+            // If already onboarded but on onboarding screen (e.g. back button), go to home
+            router.replace('/');
+        }
+    }, [hasOnboarded, loaded, _hasHydrated]);
 
     if (!loaded && !error) {
         return null;
@@ -41,7 +69,19 @@ export default function Layout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
-                <Stack.Screen name="gallery" />
+                <Stack.Screen
+                    name="gallery"
+                    options={{
+                        animation: 'slide_from_bottom',
+                    }}
+                />
+                <Stack.Screen
+                    name="profile/index"
+                    options={{
+                        animation: 'slide_from_bottom',
+                        headerShown: false
+                    }}
+                />
                 {/* Apply slide_from_bottom animation for diary screens */}
                 <Stack.Screen
                     name="diary/[id]"
@@ -53,6 +93,14 @@ export default function Layout() {
                     name="diary/write"
                     options={{
                         animation: 'slide_from_bottom',
+                    }}
+                />
+                <Stack.Screen
+                    name="onboarding"
+                    options={{
+                        headerShown: false,
+                        animation: 'fade',
+                        gestureEnabled: false
                     }}
                 />
             </Stack>

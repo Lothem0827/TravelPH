@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getProvinceStatuses, setVisitedStatus, setWishlistStatus, getAllVisitedProvinceImages, ProvinceStatus } from '@/database/queries';
+import { getProvinceStatuses, setVisitedStatus, setWishlistStatus, getAllVisitedProvinceImages, resetProvinces, ProvinceStatus } from '@/database/queries';
 
 // Colors
 const COLOR_VISITED = "#FACC15"; // Yellow 400
@@ -16,6 +16,7 @@ interface TravelState {
     addToWishlist: (id: string) => void;
     markVisited: (id: string) => void;
     triggerCloseSheet: () => void;
+    resetData: () => void;
 }
 
 export const useTravelStore = create<TravelState>((set, get) => ({
@@ -75,4 +76,13 @@ export const useTravelStore = create<TravelState>((set, get) => ({
     },
 
     triggerCloseSheet: () => set({ shouldCloseSheet: Date.now() }),
+
+    resetData: () => {
+        try {
+            resetProvinces();
+            get().refreshData();
+        } catch (e) {
+            console.error("Failed to reset travel data:", e);
+        }
+    }
 }));

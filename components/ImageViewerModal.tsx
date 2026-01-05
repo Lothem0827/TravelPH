@@ -82,7 +82,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
             presentationStyle="fullScreen"
             onRequestClose={onClose}
         >
-            <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }}>
+            <SafeAreaView className="flex-1 bg-black/90">
                 <StatusBar barStyle="dark-content" backgroundColor="white" />
 
                 {/* Header */}
